@@ -62,11 +62,11 @@ function getBotResponse(userInput) {
         'salom': 'Salom! Sizga qanday yordam bera olaman?',
         'qalaysiz': 'Men yaxshi, rahmat! Siz-chi?',
         'xayr': 'Xayr! Sizga omad tilayman!',
-        'isming nima': 'Mening ismim ASchat! Lekin qisqa qilib AS deb chaqirishingiz mumkin.',
+        'isming nima': 'Mening ismim Sodiqov! Lekin menga nima deb murojaat qilishni o`zingiz belgilaysiz.',
         'kimsan': 'Men rejalashtirilgan savollarga javob berishga mo`ljallangan chatbotman.',
         'nimasan': 'Men Asilbek Sodiqov haqidagi savollarga umumiy tarzda javob bera oladigan suhbatdoshman.',
         'kim tomonidan yaratilgansan': 'Men Asilbek Sodiqov tomonidan 2024 yil oxirida yaratilganman.',
-        'nima so`ray': 'Noqulayliklar uchun uzr so`rayman. Sizning ushbu savollaringiz tez orada ma`lumotlar bazamga qo`shiladi va Sodiqov tomonidan munosib javoblar kiritiladi.'
+        "nima so'ray": 'Noqulayliklar uchun uzr so`rayman. Sizning ushbu savollaringiz tez orada ma`lumotlar bazamga qo`shiladi va Sodiqov tomonidan munosib javoblar kiritiladi.'
     };
 
     userInput = userInput.toLowerCase().trim();
