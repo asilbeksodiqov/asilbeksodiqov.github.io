@@ -32,7 +32,6 @@ function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     setTimeout(() => {
-        // Remove the typing animation
         typingMessage.remove();
 
         const botMessage = document.createElement('div');
@@ -55,14 +54,19 @@ function sendMessage() {
 
         userInput.value = '';
         userInput.focus();
-    }, 1500); // 1.5 seconds delay before showing the bot's message
+    }, 1500);
 }
 
 function getBotResponse(userInput) {
     const responses = {
         'salom': 'Salom! Sizga qanday yordam bera olaman?',
         'qalaysiz': 'Men yaxshi, rahmat! Siz-chi?',
-        'xayr': 'Xayr! Sizga omad tilayman!'
+        'xayr': 'Xayr! Sizga omad tilayman!',
+        'isming nima': 'Mening ismim ASchat! Lekin qisqa qilib AS deb chaqirishingiz mumkin.',
+        'kimsan': 'Men rejalashtirilgan savollarga javob berishga mo`ljallangan chatbotman.',
+        'nimasan': 'Men Asilbek Sodiqov haqidagi savollarga umumiy tarzda javob bera oladigan suhbatdoshman.',
+        'kim tomonidan yaratilgansan': 'Men Asilbek Sodiqov tomonidan 2024 yil oxirida yaratilganman.',
+        'nima so`ray': 'Noqulayliklar uchun uzr so`rayman. Sizning ushbu savollaringiz tez orada ma`lumotlar bazamga qo`shiladi va Sodiqov tomonidan munosib javoblar kiritiladi.'
     };
 
     userInput = userInput.toLowerCase().trim();
