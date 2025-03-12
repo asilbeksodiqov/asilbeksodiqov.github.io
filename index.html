@@ -3,182 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asilbek Sodiqov</title>
+    <title>Sodiqov Chat</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
-    <header class="header">
-        <a href="#" class="logo"><span>Asilbek Sodiqov</span></a>
-
-        <ul class="nav-links">
-            <li>
-                <a href="#about">Asosiy</a>
-            </li>
-
-            <li>
-                <a href="#experience">Tajriba</a>
-            </li>
-
-            <li>
-                <a href="#projects">Loyiha</a>
-            </li>
-
-            <li>
-                <a href="#contact">Aloqa</a>
-            </li>
-        </ul>
-
-        <i class="fa-solid fa-bars" id="menu-icon"></i>
-
-        <button class="visit-btn">GitHubga tashrif buyuring</button>
-    </header>
-
-    <section id="about" class="about">
-        <div class="about-container">
-            <img src="Asilbek Sodiqov Logo.jpg" alt="">
-
-            <div class="info-box">
-                <div class="text">
-                    <h3>Salom, men</h3>
-                    <h1>Asilbek Sodiqov</h1>
-                    <span>Frontend Dasturchi</span>
-                </div>
-
-                <div class="btn-group">
-                    <a href="Asilbek Sodiqov Logo.jpg" download>
-                        <div class="btn">Logo yuklab olish</div>
-                    </a>
-                    <button class="btn" onclick="window.location.href='chatbot.html'">
-                        <i class="fa-solid fa-robot"></i>
-                    </button>
-                </div>                
-
-                <div class="socials">
-                    <a href="tel:+998947030806">
-                        <i class="fa-solid fa-phone"></i>
-                    </a>
-                    <a href="https://www.instagram.com/asilxon_sodiqov?igsh=dm02ajR0YnV5MWNi" target="_blank">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="https://t.me/asilxon_sodiqov" target="_blank">
-                        <i class="fa-brands fa-telegram"></i>
-                    </a>
-                    <a href="https://www.facebook.com/profile.php?id=61555541592942&mibextid=ZbWKwL" target="_blank">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="https://www.threads.net/@asilxon_sodiqov" target="_blank">
-                        <i class="fa-brands fa-threads"></i>
-                    </a>
-                    <a href="https://x.com/Asilxon_Sodiqov?t=1ADflO47e2zx1yX8urRH3A&s=09" target="_blank">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                </div>
-            </div>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Message">
+            <button onclick="sendMessage()">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
         </div>
-    </section>
+    </div>
 
-    <section id="experience" class="experience">
-
-        <h2 class="section-title"></h2>
-
-        <div class="experience-info">
-            <div class="grid">
-                <div class="grid-card">
-                    <i class="fa-solid fa-language"></i>
-                    <span>Ingliz tili</span>
-                    <h3>3 Yil</h3>
-                    <p>Ingliz tilida yaxshi bilimga ega bo'lib, muloqot qilish, yozish va turli kontekstlarni tushunishda yetarli ko'nikmalarga ega.</p>
-                </div>
-
-                <div class="grid-card">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <span>Huquq</span>
-                    <h3>4 Yil</h3>
-                    <p>Huquqshunoslik bo'yicha bakalavriat talabasi, huquq sohasida turli yuridik yo'nalishlarni o'rganib, huquqiy bilim va tushunchalarimni mustahkamlamoqda.</p>  
-                </div>
-            </div>
-
-            <img src="Asilbek Sodiqov.jpg" alt="">
-        </div>
-    </section>
-
-    <section id="projects" class="projects">
-        <h2 class="section-title">Loyihalar</h2>
-        <div class="projects-grid">
-            <div class="projects-card">
-                <img src="portfolio.png" alt="">
-                <h3>Portfolio</h3>
-                <p>Ushbu portfel veb-sayti tashrif buyuruvchilar uchun mening ijtimoiy tarmoqlardagi profillarimni ko'rib chiqish, o'rgangan ko'nikmalarim haqidagi ma'lumotlarni olish va ishlab chiqqan loyihalarimni, jumladan veb-saytlar va boshqa raqamli ishlarimni kashf etish imkonini beradi.</p>
-                <div class="btn-group">
-                    <div class="btn">Live Demo</div>
-                    <div class="btn">GitHub Repo</div>
-                </div>
-            </div>
-
-            <div class="projects-card">
-                <img src="aChat.png" alt="">
-                <h3>aChat</h3>
-                <p>Hozirda men maxsus chatbot ishlab chiqish ustida ishlamoqdaman va uning funksionalligi hamda foydalanuvchi tajribasini yaxshilashga intilaman. Garchi u hali rivojlanish bosqichida bo'lsa ham, men uni ilg'or sun'iy intellekt texnikalari yordamida takomillashtirishni maqsad qilganman.</p>
-                <div class="btn-group">
-                    <div class="btn">Live Demo</div>
-                    <div class="btn">GitHub Repo</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="contact" id="contact">
-        <div class="input-box">
-            <h2 class="section-title">Aloqa</h2>
-            <div class="input">
-                <input type="text" id="email" placeholder="example@gmail.com">
-                <i class="fa-regular fa-envelope"></i>
-            </div>
-    
-            <a href="mailto:asilxonsodiqov@gmail.com">
-                <div class="btn" id="submitBtn">Tasdiqlash</div>
-            </a>
-        </div>
-    </section>
-    
-    <script>
-        document.getElementById('submitBtn').addEventListener('click', function(event) {
-            var email = document.getElementById('email').value;
-            
-            if (!email.includes('@gmail.com')) {
-                alert('Iltimos, haqiqiy email manzilingizni kiriting.');
-                event.preventDefault();
-            } else {
-                alert('Emailingiz muvaffaqiyatli tasdiqlandi! Davom etishni istaysizmi?');
-            }
-        });
-    </script>
-    
-
-    <footer>
-
-        <ul>
-            <li>
-                <a href="#about">Asosiy</a>
-            </li>
-
-            <li>
-                <a href="#experience">Tajriba</a>
-            </li>
-
-            <li>
-                <a href="#projects">Loyiha</a>
-            </li>
-
-            <li>
-                <a href="#contact">Aloqa</a>
-            </li>
-        </ul>
-
-        <p class="copyright">&copy All rights reserved | Asilbek Sodiqov</p>
-    </footer>
-
-    <script src="asilbek.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
