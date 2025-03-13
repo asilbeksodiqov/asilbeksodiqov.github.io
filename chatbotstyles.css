@@ -342,11 +342,6 @@ button i {
         max-width: 90%;
     }
 
-    input[type="text"] {
-        font-size: 12px;
-        padding: 6px;
-    }
-
     button {
         padding: 6px;
     }
