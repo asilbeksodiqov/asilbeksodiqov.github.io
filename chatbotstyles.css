@@ -8,8 +8,92 @@ body {
     background-color: #f0f0f0;
 }
 
+/* Modal uslublari */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #e0f7fa 0%, #f0f4f8 100%); /* Ochik gradient fon */
+}
+
+.modal-content h2 {
+    margin: 0 0 10px;
+    font-size: 26px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.modal-content p {
+    margin: 0 0 20px;
+    font-size: 16px;
+    color: #7f8c8d;
+    line-height: 1.5;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-content button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-content button:first-child {
+    background-color: #3498db;
+    color: white;
+}
+
+.modal-content button:first-child:hover {
+    background-color: #2980b9;
+}
+
+.modal-content button:last-child {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.modal-content button:last-child:hover {
+    background-color: #c0392b;
+}
+
 .chat-container {
-    width: 100%; /* Telefonda to‘liq kenglik */
+    width: 100%;
     max-width: 700px;
     height: 98vh;
     background-color: white;
@@ -23,7 +107,7 @@ body {
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    width: 100%; /* .chat-container bilan teng kenglik */
+    width: 100%;
     background-color: #f8f9fa;
     border-bottom: 1px solid #ccc;
     border-top-left-radius: 8px;
@@ -42,6 +126,24 @@ body {
     font-size: 16px;
     font-weight: bold;
     color: #0a0a0a;
+    flex: 1;
+}
+
+.clear-chat-btn {
+    padding: 8px;
+    border: none;
+    background-color: transparent;
+    color: #ff4444;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.clear-chat-btn:hover {
+    color: #cc0000;
+}
+
+.clear-chat-btn i {
+    font-size: 16px;
 }
 
 .chat-box {
@@ -70,7 +172,7 @@ body {
     color: #070707;
     padding: 10px 15px;
     border-radius: 50px;
-    max-width: 80%; /* Telefonda kengroq qilish uchun */
+    max-width: 80%;
     display: inline-block;
     margin-right: 5px;
 }
@@ -81,7 +183,7 @@ body {
     color: #0a0a0a;
     padding: 10px 15px;
     border-radius: 8px;
-    max-width: 80%; /* Telefonda kengroq qilish uchun */
+    max-width: 80%;
     display: inline-block;
 }
 
@@ -120,13 +222,35 @@ button i {
     font-size: 16px;
 }
 
-/* Mobil qurilmalar uchun moslashuv */
 @media (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .modal-content h2 {
+        font-size: 22px;
+    }
+
+    .modal-content p {
+        font-size: 14px;
+    }
+
+    .modal-content input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .modal-content button {
+        font-size: 14px;
+        padding: 8px 20px;
+    }
+
     .chat-container {
         width: 100%;
-        height: 100vh; /* To‘liq ekran balandligi */
-        border-radius: 0; /* Chegaralarni olib tashlash */
-        box-shadow: none; /* Soyani olib tashlash */
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
     }
 
     .chat-header {
@@ -144,18 +268,26 @@ button i {
         font-size: 14px;
     }
 
+    .clear-chat-btn {
+        padding: 6px;
+    }
+
+    .clear-chat-btn i {
+        font-size: 14px;
+    }
+
     .chat-box {
         padding: 10px;
-        max-height: calc(100vh - 110px); /* Header va input uchun joy */
+        max-height: calc(100vh - 110px);
     }
 
     .message {
-        max-width: 85%; /* Xabarlarni kengroq qilish */
+        max-width: 85%;
     }
 
     .user {
         max-width: 90%;
-        margin-right: 0; /* O‘ng bo‘shliqni olib tashlash */
+        margin-right: 0;
         padding: 8px 12px;
     }
 
@@ -182,8 +314,30 @@ button i {
     }
 }
 
-/* 400px dan kichik ekranlar uchun qo‘shimcha sozlamalar */
 @media (max-width: 400px) {
+    .modal-content {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+
+    .modal-content p {
+        font-size: 13px;
+    }
+
+    .modal-content input {
+        font-size: 13px;
+        padding: 6px;
+    }
+
+    .modal-content button {
+        font-size: 13px;
+        padding: 6px 15px;
+    }
+
     .chat-header {
         padding: 6px 8px;
     }
@@ -197,6 +351,10 @@ button i {
         font-size: 13px;
     }
 
+    .clear-chat-btn i {
+        font-size: 12px;
+    }
+
     .chat-box {
         padding: 8px;
         max-height: calc(100vh - 100px);
@@ -205,7 +363,12 @@ button i {
     .message {
         max-width: 90%;
     }
-    
+
+    input[type="text"] {
+        font-size: 12px;
+        padding: 6px;
+    }
+
     button {
         padding: 6px;
     }
