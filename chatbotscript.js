@@ -1,16 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const chatBox = document.getElementById('chat-box');
     const nameModal = document.getElementById('name-modal');
-    const confirmModal = document.getElementById('confirm-modal');
     const nameInput = document.getElementById('name-input');
     let userName = localStorage.getItem('userName');
 
+    // Agar ism mavjud bo‘lmasa, modalni ko‘rsatish
     if (!userName) {
         nameModal.style.display = 'flex';
     } else {
         loadChat(userName, chatBox);
     }
 
+    // Chat header ga bosilganda index.html ga yo‘naltirish
     const chatHeader = document.querySelector('.chat-header');
     chatHeader.addEventListener('click', (event) => {
         if (!event.target.closest('.clear-chat-btn')) {
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Modal inputda Enter tugmasi bosilganda
     nameInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             saveUserName();
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Ismni saqlash funksiyasi
 function saveUserName() {
     const nameInput = document.getElementById('name-input');
     const nameModal = document.getElementById('name-modal');
@@ -41,6 +44,7 @@ function saveUserName() {
     loadChat(userName, chatBox);
 }
 
+// Chatni yuklash funksiyasi
 function loadChat(userName, chatBox) {
     const savedChat = localStorage.getItem('chatHistory');
     if (savedChat) {
@@ -54,22 +58,13 @@ function loadChat(userName, chatBox) {
     }
 }
 
-function showConfirmModal() {
-    const confirmModal = document.getElementById('confirm-modal');
-    confirmModal.style.display = 'flex';
-}
-
-function confirmClear(confirmed) {
-    const confirmModal = document.getElementById('confirm-modal');
+function clearChat() {
     const chatBox = document.getElementById('chat-box');
-    confirmModal.style.display = 'none';
-    if (confirmed) {
-        chatBox.innerHTML = '';
-        localStorage.removeItem('chatHistory');
-        const clearedMessage = document.createElement('div');
-        chatBox.appendChild(clearedMessage);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    chatBox.innerHTML = '';
+    localStorage.removeItem('chatHistory');
+    const clearedMessage = document.createElement('div');
+    chatBox.appendChild(clearedMessage);
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function sendMessage() {
