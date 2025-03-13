@@ -150,8 +150,6 @@ function getBotResponse(userInput) {
         ]
     };
 
-    const normalizedInput = userInput.replace(/ʻ/g, "'");
-
     // Agar userInput mavjud bo‘lsa, tasodifiy javob qaytarish
     if (responses[userInput]) {
         const responseArray = responses[userInput];
