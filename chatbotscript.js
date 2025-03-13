@@ -1,17 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
     const chatBox = document.getElementById('chat-box');
+    const nameModal = document.getElementById('name-modal');
+    const confirmModal = document.getElementById('confirm-modal');
+    const nameInput = document.getElementById('name-input');
     let userName = localStorage.getItem('userName');
 
-    // Ism so‘rash
     if (!userName) {
-        while (!userName) {
-            userName = prompt("Iltimos, ismingizni kiriting:");
-            if (!userName) alert("Ism kiritish majburiy!");
-        }
-        localStorage.setItem('userName', userName);
+        nameModal.style.display = 'flex';
+    } else {
+        loadChat(userName, chatBox);
     }
 
-    // Oldingi suhbatni yuklash
+    const chatHeader = document.querySelector('.chat-header');
+    chatHeader.addEventListener('click', (event) => {
+        if (!event.target.closest('.clear-chat-btn')) {
+            window.location.href = 'index.html';
+        }
+    });
+
+    nameInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            saveUserName();
+        }
+    });
+});
+
+function saveUserName() {
+    const nameInput = document.getElementById('name-input');
+    const nameModal = document.getElementById('name-modal');
+    const chatBox = document.getElementById('chat-box');
+    let userName = nameInput.value.trim();
+
+    if (!userName) {
+        alert("Iltimos, ismingizni kiriting!");
+        return;
+    }
+
+    localStorage.setItem('userName', userName);
+    nameModal.style.display = 'none';
+    loadChat(userName, chatBox);
+}
+
+function loadChat(userName, chatBox) {
     const savedChat = localStorage.getItem('chatHistory');
     if (savedChat) {
         chatBox.innerHTML = savedChat;
@@ -22,13 +52,25 @@ document.addEventListener('DOMContentLoaded', () => {
         initialMessage.textContent = `Salom ${userName}, xush kelibsiz! Siz bilan muloqot qilishdan xursandman! Qanday savolingiz bor?`;
         chatBox.appendChild(initialMessage);
     }
+}
 
-    // Chat header ga bosilganda index.html ga yo‘naltirish
-    const chatHeader = document.querySelector('.chat-header');
-    chatHeader.addEventListener('click', () => {
-        window.location.href = 'index.html';
-    });
-});
+function showConfirmModal() {
+    const confirmModal = document.getElementById('confirm-modal');
+    confirmModal.style.display = 'flex';
+}
+
+function confirmClear(confirmed) {
+    const confirmModal = document.getElementById('confirm-modal');
+    const chatBox = document.getElementById('chat-box');
+    confirmModal.style.display = 'none';
+    if (confirmed) {
+        chatBox.innerHTML = '';
+        localStorage.removeItem('chatHistory');
+        const clearedMessage = document.createElement('div');
+        chatBox.appendChild(clearedMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+}
 
 function sendMessage() {
     const userInput = document.getElementById('user-input');
