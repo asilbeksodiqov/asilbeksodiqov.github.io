@@ -108,15 +108,59 @@ function typeWriter(element, text, index, callback) {
 function getBotResponse(userInput) {
     const userName = localStorage.getItem('userName');
     const responses = {
-        'salom': `Salom, ${userName}! Sizga qanday yordam bera olaman?`,
-        'qalaysiz': `Men yaxshi, rahmat, ${userName}! Siz-chi?`,
-        'xayr': `Xayr, ${userName}! Sizga omad tilayman!`,
-        'isming nima': `Mening ismim Sodiqov! Siz bilan tanishganimdan xursandman, ${userName}.`,
-        'kimsan': `Men rejalashtirilgan savollarga javob berishga mo‘ljallangan chatbotman!`,
-        'nimasan': `Men Asilbek Sodiqov haqidagi savollarga umumiy javob bera oladigan suhbatdoshman!`,
-        'kim tomonidan yaratilgansan': `Men Asilbek Sodiqov tomonidan 2024 yil oxirida yaratilganman!`,
-        "nima so'ray": `Noqulayliklar uchun uzr, ${userName}. Sizning savollaringiz tez orada ma‘lumotlar bazamga qo‘shiladi.`
+        'salom': [
+            `Salom, ${userName}! Sizga qanday yordam bera olaman?`,
+            `Assalomu alaykum, ${userName}! Nima yangiliklar?`,
+            `Salom, ${userName}! Bugun siz uchun nima qila olaman?`
+        ],
+        'qalaysiz': [
+            `Men yaxshi, rahmat, ${userName}! Siz-chi?`,
+            `Ajoyibman, ${userName}! Sizning ahvolingiz qanday?`,
+            `Zo‘rman, ${userName}! Siz qalaysiz?`
+        ],
+        'xayr': [
+            `Xayr, ${userName}! Sizga omad tilayman!`,
+            `Xayrli kun, ${userName}! Yana uchrashguncha!`,
+            `Xayr, ${userName}! O‘zingizga ehtiyot bo‘ling!`
+        ],
+        'isming nima': [
+            `Mening ismim Sodiqov! Siz bilan tanishganimdan xursandman, ${userName}.`,
+            `Ismim Sodiqov, ${userName}! Sizni ko‘rganimdan mamnunman.`,
+            `Men Sodiqovman! ${userName}, tanishganimdan xursandman.`
+        ],
+        'kimsan': [
+            `Men rejalashtirilgan savollarga javob berishga mo‘ljallangan chatbotman!`,
+            `Men Asilbek Sodiqovning yordamchi chatbotiman!`,
+            `Men virtual suhbatdoshman, ${userName}!`
+        ],
+        'nimasan': [
+            `Men Asilbek Sodiqov haqidagi savollarga umumiy javob bera oladigan suhbatdoshman!`,
+            `Men oddiy chatbotman, ${userName}!`,
+            `Men siz bilan suhbatlashish uchun yaratilgan dasturman!`
+        ],
+        'kim tomonidan yaratilgansan': [
+            `Men Asilbek Sodiqov tomonidan 2024 yil oxirida yaratilganman!`,
+            `Meni Asilbek Sodiqov 2024 yilda ishlab chiqqan!`,
+            `Men 2024 yilda Asilbek Sodiqovning ijodi natijasiman!`
+        ],
+        "nima soʻray": [
+            `Noqulayliklar uchun uzr, ${userName}. Sizning savollaringiz tez orada ma‘lumotlar bazamga qo‘shiladi.`,
+            `Uzr, ${userName}, bunga javobim yo‘q, lekin tez orada o‘rganaman!`,
+            `Kechirasiz, ${userName}, buni hali bilmayman, lekin yangilanaman!`
+        ]
     };
+
+    const normalizedInput = userInput.replace(/ʻ/g, "'");
+
+    // Agar userInput mavjud bo‘lsa, tasodifiy javob qaytarish
+    if (responses[userInput]) {
+        const responseArray = responses[userInput];
+        const randomIndex = Math.floor(Math.random() * responseArray.length);
+        return responseArray[randomIndex];
+    } else {
+        return `Uzr, ${userName}, bu savolga javobim yo‘q!`; // Agar savol topilmasa
+    }
+}
 
     userInput = userInput.toLowerCase().trim();
     return responses[userInput] || `Kechirasiz, ${userName}, men sizni tushunmadim. Boshqa savol so‘rab ko‘ring.`;
