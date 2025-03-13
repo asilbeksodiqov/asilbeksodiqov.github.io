@@ -10,86 +10,64 @@ body {
 
 /* Modal uslublari */
 .modal {
-    display: none;
+    display: none; /* Dastlab yashirin */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* Yarim shaffof fon */
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
 .modal-content {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 15px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
     width: 90%;
-    max-width: 450px;
+    max-width: 400px;
     text-align: center;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #e0f7fa 0%, #f0f4f8 100%); /* Ochik gradient fon */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content h2 {
     margin: 0 0 10px;
-    font-size: 26px;
-    color: #2c3e50;
-    font-weight: 600;
+    font-size: 24px;
+    color: #333;
 }
 
 .modal-content p {
     margin: 0 0 20px;
     font-size: 16px;
-    color: #7f8c8d;
-    line-height: 1.5;
+    color: #666;
 }
 
 .modal-content input {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     font-size: 16px;
     outline: none;
     box-sizing: border-box;
-    background-color: #f9f9f9;
-}
-
-.modal-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
 }
 
 .modal-content button {
-    padding: 10px 25px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 8px;
+    background-color: #000;
+    color: white;
+    border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s;
 }
 
-.modal-content button:first-child {
-    background-color: #3498db;
-    color: white;
-}
-
-.modal-content button:first-child:hover {
-    background-color: #2980b9;
-}
-
-.modal-content button:last-child {
-    background-color: #e74c3c;
-    color: white;
-}
-
-.modal-content button:last-child:hover {
-    background-color: #c0392b;
+.modal-content button:hover {
+    background-color: #333;
 }
 
 .chat-container {
@@ -229,7 +207,7 @@ button i {
     }
 
     .modal-content h2 {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .modal-content p {
@@ -243,7 +221,7 @@ button i {
 
     .modal-content button {
         font-size: 14px;
-        padding: 8px 20px;
+        padding: 8px 16px;
     }
 
     .chat-container {
@@ -321,7 +299,7 @@ button i {
     }
 
     .modal-content h2 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .modal-content p {
@@ -335,7 +313,7 @@ button i {
 
     .modal-content button {
         font-size: 13px;
-        padding: 6px 15px;
+        padding: 6px 12px;
     }
 
     .chat-header {
