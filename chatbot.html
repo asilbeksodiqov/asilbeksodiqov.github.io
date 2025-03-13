@@ -8,27 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
-    <!-- Ism so'rash modal oynasi -->
+    <!-- Modal oynasi -->
     <div class="modal" id="name-modal">
         <div class="modal-content">
-            <h2>Xush kelibsiz! 👋</h2>
-            <p>Siz bilan suhbatlashishdan xursandmiz! Iltimos, ismingizni kiriting:</p>
-            <input type="text" id="name-input" placeholder="Masalan: Ali..." required>
-            <div class="modal-buttons">
-                <button onclick="saveUserName()">Davom etish</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Chatni tozalash uchun tasdiqlash modal oynasi -->
-    <div class="modal" id="confirm-modal">
-        <div class="modal-content">
-            <h2>Diqqat! ⚠️</h2>
-            <p>Chat tarixini tozalashni haqiqatan ham xohlaysizmi? Bu amal qaytarib bo‘lmaydi.</p>
-            <div class="modal-buttons">
-                <button onclick="confirmClear(true)">Ha</button>
-                <button onclick="confirmClear(false)">Yo‘q</button>
-            </div>
+            <h2>Xush kelibsiz! 😊</h2>
+            <p>Iltimos, ismingizni kiriting:</p>
+            <input type="text" id="name-input" placeholder="Ismingizni yozing..." required>
+            <button onclick="saveUserName()">Davom etish</button>
         </div>
     </div>
 
@@ -36,7 +22,7 @@
         <div class="chat-header">
             <img src="Asilxon Sodiqov Logo.jpg" alt="Sodiqov Logo" class="header-logo">
             <span class="header-name">Sodiqov</span>
-            <button class="clear-chat-btn" onclick="showConfirmModal()">
+            <button class="clear-chat-btn" onclick="clearChat()">
                 <i class="fa-solid fa-trash"></i>
             </button>
         </div>
