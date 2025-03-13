@@ -5,13 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sodiqov Chat</title>
     <link rel="stylesheet" href="chatbotstyles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
+    <!-- Ism so'rash modal oynasi -->
+    <div class="modal" id="name-modal">
+        <div class="modal-content">
+            <h2>Xush kelibsiz! 👋</h2>
+            <p>Siz bilan suhbatlashishdan xursandmiz! Iltimos, ismingizni kiriting:</p>
+            <input type="text" id="name-input" placeholder="Masalan: Ali..." required>
+            <div class="modal-buttons">
+                <button onclick="saveUserName()">Davom etish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatni tozalash uchun tasdiqlash modal oynasi -->
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content">
+            <h2>Diqqat! ⚠️</h2>
+            <p>Chat tarixini tozalashni haqiqatan ham xohlaysizmi? Bu amal qaytarib bo‘lmaydi.</p>
+            <div class="modal-buttons">
+                <button onclick="confirmClear(true)">Ha</button>
+                <button onclick="confirmClear(false)">Yo‘q</button>
+            </div>
+        </div>
+    </div>
+
     <div class="chat-container">
         <div class="chat-header">
             <img src="Asilxon Sodiqov Logo.jpg" alt="Sodiqov Logo" class="header-logo">
             <span class="header-name">Sodiqov</span>
+            <button class="clear-chat-btn" onclick="showConfirmModal()">
+                <i class="fa-solid fa-trash"></i>
+            </button>
         </div>
         <div class="chat-box" id="chat-box"></div>
         <div class="input-container">
