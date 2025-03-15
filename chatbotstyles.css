@@ -10,13 +10,13 @@ body {
 
 /* Modal uslublari */
 .modal {
-    display: none; /* Dastlab yashirin */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Yarim shaffof fon */
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -30,6 +30,25 @@ body {
     max-width: 400px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-out; /* Taklif 3: Animatsiya qo‘shish */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+.close-modal:hover {
+    color: #333;
 }
 
 .modal-content h2 {
@@ -55,6 +74,12 @@ body {
     box-sizing: border-box;
 }
 
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
 .modal-content button {
     padding: 10px 20px;
     border: none;
@@ -66,8 +91,30 @@ body {
     transition: background-color 0.3s;
 }
 
+/* Taklif 5: Ikonkalar va tugmalar dizaynini yaxshilash */
+.modal-content button i {
+    margin-left: 5px; /* Ikonka va matn orasida bo‘shliq */
+}
+
 .modal-content button:hover {
     background-color: #333;
+}
+
+/* Tasdiqlash modalidagi tugmalar uchun alohida uslub */
+#confirmModal .modal-content button:first-child {
+    background-color: #28a745; /* "Ha" tugmasi uchun yashil rang */
+}
+
+#confirmModal .modal-content button:first-child:hover {
+    background-color: #218838;
+}
+
+#confirmModal .modal-content button:last-child {
+    background-color: #dc3545; /* "Yo‘q" tugmasi uchun qizil rang */
+}
+
+#confirmModal .modal-content button:last-child:hover {
+    background-color: #c82333;
 }
 
 .chat-container {
@@ -105,6 +152,7 @@ body {
     font-weight: bold;
     color: #0a0a0a;
     flex: 1;
+    cursor: default;
 }
 
 .clear-chat-btn {
@@ -189,11 +237,16 @@ button {
     color: white;
     border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
     background-color: #333;
+}
+
+button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 button i {
@@ -222,6 +275,10 @@ button i {
     .modal-content button {
         font-size: 14px;
         padding: 8px 16px;
+    }
+
+    .close-modal {
+        font-size: 20px;
     }
 
     .chat-container {
@@ -316,6 +373,10 @@ button i {
         padding: 6px 12px;
     }
 
+    .close-modal {
+        font-size: 18px;
+    }
+
     .chat-header {
         padding: 6px 8px;
     }
@@ -329,10 +390,6 @@ button i {
         font-size: 13px;
     }
 
-    .clear-chat-btn i {
-        font-size: 12px;
-    }
-
     .chat-box {
         padding: 8px;
         max-height: calc(100vh - 100px);
@@ -340,9 +397,5 @@ button i {
 
     .message {
         max-width: 90%;
-    }
-
-    button i {
-        font-size: 12px;
     }
 }
