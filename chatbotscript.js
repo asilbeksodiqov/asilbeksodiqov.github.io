@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameModal = document.getElementById('name-modal');
     const confirmModal = document.getElementById('confirmModal');
     const nameInput = document.getElementById('name-input');
+    const userInput = document.getElementById('user-input');
+    const inputContainer = document.querySelector('.input-container');
     let userName = localStorage.getItem('userName');
 
     if (!userName) {
@@ -37,6 +39,36 @@ document.addEventListener('DOMContentLoaded', () => {
             if (event.key === 'Enter') confirmClearChat(true);
             if (event.key === 'Escape') confirmClearChat(false);
         }
+    });
+
+    // Klaviatura ochilishi va yopilishini aniqlash
+    let initialHeight = window.innerHeight;
+    window.addEventListener('resize', () => {
+        const newHeight = window.innerHeight;
+        if (newHeight < initialHeight) {
+            // Klaviatura ochildi
+            const keyboardHeight = initialHeight - newHeight;
+            inputContainer.style.bottom = `${keyboardHeight}px`;
+            chatBox.style.paddingBottom = `${70 + keyboardHeight}px`; // Input joyini moslashtirish
+        } else {
+            // Klaviatura yopildi
+            inputContainer.style.bottom = '0';
+            chatBox.style.paddingBottom = '70px'; // Asl holat
+        }
+        chatBox.scrollTop = chatBox.scrollHeight; // Scrollni pastda ushlab turish
+    });
+
+    // Input fokuslanganda va fokusdan chiqqanda
+    userInput.addEventListener('focus', () => {
+        setTimeout(() => {
+            chatBox.scrollTop = chatBox.scrollHeight; // Fokuslanganda scrollni pastda ushlash
+        }, 300);
+    });
+
+    userInput.addEventListener('blur', () => {
+        inputContainer.style.bottom = '0'; // Klaviatura yopilganda asl holat
+        chatBox.style.paddingBottom = '70px';
+        chatBox.scrollTop = chatBox.scrollHeight;
     });
 });
 
@@ -94,6 +126,8 @@ function confirmClearChat(confirmed) {
         chatBox.innerHTML = '';
         localStorage.removeItem('chatHistory');
         const clearedMessage = document.createElement('div');
+        clearedMessage.className = 'message bot';
+        clearedMessage.textContent = 'Chat tarixi tozalandi!'; // Xatolik tuzatildi: clearedMessage ga matn qo‘shildi
         chatBox.appendChild(clearedMessage);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
@@ -206,7 +240,11 @@ function getBotResponse(userInput) {
     };
 
     userInput = userInput.toLowerCase().trim();
-    const availableResponses = responses[userInput] || [`Kechirasiz, ${userName}, men sizni tushunmadim. Boshqa savol so‘rab ko‘ring.`, `Uzr, ${userName}, bu savolga javob bilmayman, boshqa nima deb ko‘raylik?`, `Hmm, ${userName}, tushunmadim, boshqa savol bilan sinab ko‘ring!`];
+    const availableResponses = responses[userInput] || [
+        `Kechirasiz, ${userName}, men sizni tushunmadim. Boshqa savol so‘rab ko‘ring.`,
+        `Uzr, ${userName}, bu savolga javob bilmayman, boshqa nima deb ko‘raylik?`,
+        `Hmm, ${userName}, tushunmadim, boshqa savol bilan sinab ko‘ring!`
+    ];
     return availableResponses[Math.floor(Math.random() * availableResponses.length)];
 }
 
