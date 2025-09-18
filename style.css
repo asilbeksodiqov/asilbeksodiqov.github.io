@@ -487,49 +487,7 @@ h1 {
 }
 
 .navigation ul li.active a .icon {
-  color: #FFFFFF;
-}
-
-.indicator {
-  position: absolute;
-  top: 5px;
-  left: 18.7px;
-  width: calc(72% / 5 - 10px);
-  height: 60px;
-  background: var(--primary-light);
-  border-radius: 100px;
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.indicator::before {
-  content: '';
-  position: absolute;
-  width: 80%;
-  height: 80%;
-  background: var(--primary);
-  border-radius: 100%;
-  transition: 0.4s;
-}
-
-/* Faol indicator joylashuvi */
-.navigation ul li:nth-child(1).active ~ .indicator {
-  transform: translateX(0);
-}
-.navigation ul li:nth-child(2).active ~ .indicator {
-  transform: translateX(161%);
-}
-.navigation ul li:nth-child(3).active ~ .indicator {
-  transform: translateX(322%);
-}
-.navigation ul li:nth-child(4).active ~ .indicator {
-  transform: translateX(483%);
-}
-.navigation ul li:nth-child(5).active ~ .indicator {
-  transform: translateX(644%);
+  color: var(--primary);
 }
 
 /* Responsive */
@@ -549,4 +507,5 @@ h1 {
   #app, .bottom-nav {
     border-radius: 0;
   }
+
 }
