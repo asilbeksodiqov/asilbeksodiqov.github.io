@@ -1,0 +1,597 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background 0.3s, color 0.3s;
+}
+
+:root {
+  --bg: #f5f7fa;
+  --card-bg: white;
+  --text: #333;
+  --primary: #4A89DC;
+  --primary-light: #E3F2FD;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --accent: #f5e72b;
+}
+
+[data-theme="dark"] {
+  --bg: #121212;
+  --card-bg: #1e1e1e;
+  --text: #e0e0e0;
+  --primary: #5d9cec;
+  --primary-light: #213352;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --accent: #f5e72b;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--bg) 0%, #c3cfe2 100%);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+#app {
+  max-width: 500px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  min-height: 100vh;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px var(--shadow);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Boshqaruv tugmalari */
+.controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+}
+
+.lang-toggle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.lang-toggle:hover {
+  background: #f0f4ff;
+  transform: scale(1.05);
+}
+
+/* Til tanlash modal oynasi */
+.lang-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.lang-modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 300px;
+  width: 90%;
+}
+
+.lang-modal-content h3 {
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.lang-btn-modal {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  background: #f0f4ff;
+  color: var(--primary);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.lang-btn-modal:hover {
+  background: #e0e8ff;
+}
+
+.lang-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+}
+
+/* Sahifalar */
+.page {
+  display: none;
+  padding: 30px 20px;
+}
+
+.page.active {
+  display: block;
+}
+
+/* Animatsiyalar */
+.animate-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--primary);
+  object-fit: cover;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin: 15px 0;
+  color: #2c3e50;
+}
+
+.title {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.bio {
+  color: var(--text);
+  font-size: 0.95rem;
+  max-width: 300px;
+  margin: 15px auto;
+  text-align: center;
+}
+
+.tip-card {
+  background: var(--primary-light);
+  padding: 18px;
+  border-radius: 15px;
+  margin: 20px 20px 0;
+  border-left: 4px solid var(--primary);
+}
+
+.tip-card i {
+  color: var(--accent);
+}
+
+.tip-card h3 {
+  margin: 8px 0;
+  color: var(--text);
+}
+
+.tip-card p {
+  font-style: italic;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+/* Progress Bar */
+.progress-item {
+  margin: 20px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.progress-item h3 {
+  color: var(--text);
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 5px;
+  transition: width 1.5s ease-in-out;
+}
+
+.progress-item span {
+  color: var(--text);
+  font-size: 0.9rem;
+  margin-top: 5px;
+  display: block;
+}
+
+.more-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: 0.3s;
+}
+
+.more-btn:hover {
+  background: #3b6fc5;
+}
+
+/* =========================
+   PROJECTS
+   ========================= */
+
+   .project-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px var(--shadow);
+    margin: 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 460px;
+  }
+  
+  .project-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .project-image img:hover {
+    transform: scale(1.05);
+  }
+  
+  .project-info {
+    padding: 20px;
+  }
+  
+  .project-info h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+  }
+  
+  .project-info p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  .project-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+  }
+  
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background: #3b6fc5;
+    transform: translateY(-2px);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+  }
+  
+  .btn-outline:hover {
+    background: #f0f4ff;
+    transform: translateY(-2px);
+  }
+
+/* Gallery - Cheksiz aylanadigan kvadrat lenta */
+#gallery h2 {
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.gallery-carousel {
+  overflow: hidden;
+  padding: 10px 0;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 10px;
+  animation: scroll 16s linear infinite; /* 16s davomida aylanadi */
+}
+
+.carousel-item {
+  min-width: 200px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Cheksiz aylanish animatsiyasi */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.divider {
+  height: 1px;
+  background: var(--shadow); /* #e0e0e0 atrof-muhitda yaxshi ko'rinadi */
+  margin: 20px 0;
+  opacity: 0.6;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .carousel-item {
+    min-width: 160px;
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* Animatsiya kechikish */
+#gallery.animate-in .gallery-item:nth-child(1) { animation-delay: 0.4s; }
+#gallery.animate-in .gallery-item:nth-child(2) { animation-delay: 0.5s; }
+#gallery.animate-in .gallery-item:nth-child(3) { animation-delay: 0.6s; }
+#gallery.animate-in .gallery-item:nth-child(4) { animation-delay: 0.7s; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text);
+}
+
+.empty-state i {
+  font-size: 50px;
+  margin-bottom: 15px;
+  color: var(--primary);
+}
+
+/* Contact */
+.contact-list {
+  list-style: none;
+}
+
+.contact-list li {
+  margin: 12px 0;
+}
+
+.contact-list a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.contact-list a:hover {
+  background: #f0f4ff;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: none;
+}
+
+.modal-img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 15px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+}
+
+/* Yangilangan Navbar */
+.navigation {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+  height: 70px;
+  border-radius: 40px;
+  background-color: var(--card-bg);
+  box-shadow: 0 10px 30px var(--shadow);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.navigation ul {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.navigation ul li {
+  position: relative;
+  list-style: none;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+  transition: 0.5s;
+}
+
+.navigation ul li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #666;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.navigation ul li a .icon {
+  display: block;
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+  transition: 0.3s;
+}
+
+.navigation ul li a .title {
+  position: absolute;
+  bottom: 75px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background: var(--card-bg);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.navigation ul li:hover a .title {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-10px) scale(1);
+}
+
+.navigation ul li.active a,
+.navigation ul li:hover a {
+  color: var(--primary);
+}
+
+.navigation ul li.active a .icon {
+  color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .navigation {
+    width: 94%;
+    bottom: 15px;
+    height: 60px;
+  }
+  .navigation ul li a .title {
+    font-size: 0.85rem;
+    padding: 5px 10px;
+  }
+  .indicator {
+    height: 50px;
+  }
+  #app, .bottom-nav {
+    border-radius: 0;
+  }
+}
