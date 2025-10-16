@@ -1,76 +1,56 @@
-# asilbeksodiqov.github.io
-Personal portfolio website built with HTML, CSS, and JavaScript.
+# 🌐 Personal Portfolio - Asilbek Sodiqov
 
-
-# 🌐 Asilbek Sodiqov — Personal Portfolio
-
-Welcome to my personal portfolio website!  
-This site showcases my **skills, projects, and professional experience** as a **statistician and developer**.  
-It was designed and built using **HTML, CSS, and JavaScript**.
+This is my **personal portfolio website** built with **HTML, CSS, and JavaScript**.  
+It showcases my projects, skills, and provides ways to contact me.  
+The portfolio is hosted on **GitHub Pages** at:  
+👉 [asilbeksodiqov.github.io](https://asilbeksodiqov.github.io)
 
 ---
 
 ## 🚀 Features
+- 🖼️ Modern and responsive design  
+- 📂 Projects showcase  
+- 📱 Mobile-friendly layout  
+- 📬 Contact information with direct links  
+- 🌙 Themed sections with animations  
 
-- Responsive and modern design  
-- Sections for About, Skills, Projects, and Contact  
-- Clean and minimalistic UI  
-- Hosted on GitHub Pages  
-- Easy to update and maintain  
+---
+
+## 📂 Project Structure
+- index.html
+- style.css
+- script.js
+- manifest.json
+- service-worker.js
+- images
 
 ---
 
 ## 🛠️ Technologies Used
-
 - **HTML5** – structure  
-- **CSS3** – styling and layout  
+- **CSS3** – design & animations  
 - **JavaScript (ES6)** – interactivity  
-- **GitHub Pages** – hosting and deployment  
+- **GitHub Pages** – hosting  
 
 ---
 
-asilbeksodiqov.github.io/
-│
-├── index.html
-├── style.css
-├── script.js
-└── assets/
-├── images/
-└── icons/
----
+## 📦 Deployment
+The site is deployed using **GitHub Pages**.  
+To update:
+```bash
+git add .
+git commit -m "Update portfolio"
+git push origin main
 
-## 📸 Preview
+👨‍💻 Author
 
-You can visit the live website here:  
-👉 **[https://asilbeksodiqov.github.io](https://asilbeksodiqov.github.io)**
+Asilbek Sodiqov
+📧 Email
+ |
+💬 Telegram
+ |
+📸 Instagram
+ |
+🐦 X (Twitter)
 
----
-
-## 👤 About Me
-
-Hi! I'm **Asilbek Sodiqov**, a statistician at *Ehtirom + Microfinancial Organization*,  
-with a passion for data analysis, web development, and continuous learning.  
-This portfolio represents my personal growth and technical journey.
-
----
-
-## 📬 Contact
-
-If you’d like to collaborate or just say hi, feel free to reach out:  
-- Email: **[your.email@example.com]**  
-- LinkedIn: **[linkedin.com/in/asilbeksodiqov](https://linkedin.com/in/asilbeksodiqov)** *(optional)*  
-- GitHub: **[github.com/asilbeksodiqov](https://github.com/asilbeksodiqov)**
-
----
-
-### 🧾 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-⭐ **Feel free to fork, use, or inspire your own portfolio from this project!**
-
-
-## 📂 Repository Structure
-
+⭐ If you like this portfolio, feel free to fork or star the repo!
