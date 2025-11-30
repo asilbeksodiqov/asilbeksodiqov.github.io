@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asilbek Sodiqov | Data Analyst</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div id="app">
+        <div class="page active" id="home">
+            <div class="hero">
+                <div class="avatar">AS</div>
+                <h1>Asilbek Sodiqov</h1>
+                <p>Data Analyst & Yurist</p>
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="number">2</div>
+                    <div class="label">Loyihalar</div>
+                </div>
+                <div class="stat">
+                    <div class="number">1+</div>
+                    <div class="label">Yil Tajriba</div>
+                </div>
+                <div class="stat">
+                    <div class="number">2</div>
+                    <div class="label">Ta'lim</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn primary" onclick="showPage('portfolio')">
+                    <i class="fas fa-briefcase"></i>
+                    Loyihalarim
+                </button>
+                <button class="btn secondary" onclick="showPage('contact')">
+                    <i class="fas fa-paper-plane"></i>
+                    Bog'lanish
+                </button>
+            </div>
+        </div>
+
+        <div class="page" id="portfolio">
+            <div class="header">
+                <button class="back-btn" onclick="showPage('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Loyihalar</h2>
+            </div>
+
+            <div class="projects">
+                <div class="project-card" onclick="window.open('https://asilbeksodiqov.github.io/rps', '_blank')">
+                    <div class="project-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="project-info">
+                        <h3>Rock Paper Scissors</h3>
+                        <p>JavaScript interaktiv o'yin</p>
+                    </div>
+                    <i class="fas fa-arrow-up-right-from-square"></i>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://asilbeksodiqov.github.io/fit', '_blank')">
+                    <div class="project-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="project-info">
+                        <h3>Fitness Tracker</h3>
+                        <p>Fitness monitoring vositasi</p>
+                    </div>
+                    <i class="fas fa-arrow-up-right-from-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="contact">
+            <div class="header">
+                <button class="back-btn" onclick="showPage('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Bog'lanish</h2>
+            </div>
+        
+            <form class="contact-form" id="contactForm">
+                <div class="input-group">
+                    <input type="text" id="name" placeholder="Ismingiz" required>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-with-info">
+                        <input type="text" id="contact_info" placeholder="Aloqa uchun nomer qoldiring">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <textarea id="message" placeholder="Xabaringiz" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn primary">
+                    <i class="fas fa-paper-plane"></i>
+                    Xabarni Yuborish
+                </button>
+            </form>
+        
+            <div class="social-links">
+                <a href="https://linkedin.com/in/asilbek-sodiqov-1580b2398" class="social-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://t.me/asilbek_sodiqov" class="social-link">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://x.com/asilxon_sodiqov" class="social-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://instagram.com/asilxon_sodiqov" class="social-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <button class="nav-btn active" onclick="showPage('home')">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="nav-btn" onclick="showPage('portfolio')">
+                <i class="fas fa-briefcase"></i>
+            </button>
+            <button class="nav-btn" onclick="showPage('contact')">
+                <i class="fas fa-envelope"></i>
+            </button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
