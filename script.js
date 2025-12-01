@@ -164,7 +164,7 @@ async function sendTelegramMessage(name, phone, message) {
     const formattedPhone = '+998' + phone;
     
     const text = `
-📬 Yangi xabar
+📬 sodiqov.uz dan Yangi xabar
 
 👤 Ism: ${name}
 📞 Telefon: ${formattedPhone}
@@ -367,4 +367,5 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         showPage('home');
     }
+
 });
