@@ -294,7 +294,7 @@
             // Hide loading
             setTimeout(function() {
                 document.getElementById('loading').style.display = 'none';
-            }, 1000);
+            }, 2500);
             
             // Initialize form
             initForm();
@@ -391,7 +391,7 @@
             }
             
             // Floating labels
-            const floatingInputs = document.querySelectorAll('.floating-label input, floating-label-num input, .floating-label textarea');
+            const floatingInputs = document.querySelectorAll('.floating-label input, .floating-label-num input, .floating-label textarea');
             floatingInputs.forEach(input => {
                 input.addEventListener('input', function() {
                     if (this.value) {
@@ -409,5 +409,4 @@
         }
     </script>
 </body>
-
 </html>
