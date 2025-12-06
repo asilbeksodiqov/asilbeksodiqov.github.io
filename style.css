@@ -1065,7 +1065,16 @@
     border-right-color: var(--primary);
 }
 
+.floating-label-num:has(input:focus) .country-code {
+    color: var(--primary);
+    border-right-color: var(--primary);
+}
+
 .floating-label input[type="tel"] {
+    padding-left: 80px;
+}
+
+.floating-label-num input[type="tel"] {
     padding-left: 80px;
 }
 
