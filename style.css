@@ -248,21 +248,62 @@
   
   /* Logo yoki avatar mavjud bo'lsa */
   .splash-logo {
-    width: 80px;
-    height: 80px;
+/* ==========================================================================
+   Avatar / Logo uslublari
+   ========================================================================== */
+
+.avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 25px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    animation: float 3s ease-in-out infinite;
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 32px;
     font-weight: bold;
     color: white;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    animation: float 3s ease-in-out infinite;
-  }
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Rasm yuklanganida fallback ni yashirish */
+.avatar-image.loaded + .avatar-fallback {
+    display: none;
+}
+
+/* Agar splash-logo mavjud bo'lsa, uni yashirish */
+.splash-logo {
+    display: none;
+}
 
 /* ==========================================================================
    Hero Section Animatsiyalari
@@ -279,6 +320,26 @@
     overflow: hidden;
     animation: heroEntrance 0.8s var(--ease-out) forwards;
     opacity: 0;
+}
+
+.hero h1 {
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Float animatsiyasi (agar mavjud bo'lmasa) */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 @keyframes heroEntrance {
@@ -1390,3 +1451,4 @@
         display: none !important;
     }
 }
+
