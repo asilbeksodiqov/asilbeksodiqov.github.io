@@ -178,10 +178,6 @@
             </div>
 
             <div class="actions">
-                <button class="btn primary" onclick="showPage('portfolio')">
-                    <i class="fas fa-briefcase"></i>
-                    Loyihalarim
-                </button>
                 <button class="btn secondary" onclick="showPage('contact')">
                     <i class="fas fa-paper-plane"></i>
                     Bog'lanish
@@ -223,6 +219,44 @@
             </div>
         </section>
 
+        <!-- Haqida Page (YANGI BO'LIM) -->
+        <section class="page" id="about">
+            <div class="header">
+                <button class="back-btn" onclick="showPage('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Haqimda</h2>
+            </div>
+
+            <div class="about-container">
+                <!-- Terminal ko'rinishdagi matn ko'rsatgich -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="terminal-title">asilbek_terminal ~ about</div>
+                    </div>
+                    
+                    <div class="terminal-body" id="terminalText">
+                        <!-- Matnlar bu yerda typing effekt bilan chiqadi -->
+                        <div class="cursor"></div>
+                    </div>
+                </div>
+
+                <!-- Loading progress -->
+                <div class="about-progress">
+                        <div class="progress-fill" id="aboutProgress"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="currentSection"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Page -->
         <section class="page" id="contact">
             <div class="header">
@@ -240,7 +274,7 @@
                     </div>
                 </div>
                 
-                <!-- Contact Type Selector qismini o'zgartiring -->
+                <!-- Contact Type Selector -->
                 <div class="contact-type-selector">
                     <div class="type-options">
                         <button type="button" class="type-option active" data-type="phone">
@@ -308,6 +342,10 @@
             </button>
             <button class="nav-btn" onclick="showPage('portfolio')">
                 <i class="fas fa-briefcase"></i>
+            </button>
+            <!-- Yangi Haqida tugmasi -->
+            <button class="nav-btn" onclick="showPage('about')">
+                <i class="fas fa-user"></i>
             </button>
             <button class="nav-btn" onclick="showPage('contact')">
                 <i class="fas fa-envelope"></i>
@@ -393,6 +431,9 @@
             // Initialize form
             initForm();
             initContactTypeSelector();
+            
+            // Init about page typing effect
+            initAboutTyping();
         });
         
         // Show page function
@@ -411,7 +452,7 @@
             document.getElementById(pageId).classList.add('active');
             
             // Activate corresponding nav button
-            const pageIndex = ['home', 'portfolio', 'contact'].indexOf(pageId);
+            const pageIndex = ['home', 'portfolio', 'about', 'contact'].indexOf(pageId);
             if (pageIndex !== -1) {
                 document.querySelectorAll('.nav-btn')[pageIndex].classList.add('active');
             }
@@ -692,6 +733,194 @@
                     input.parentElement.classList.add('has-value');
                 }
             });
+        }
+
+        // About page typing effect (YANGI FUNKSIYA)
+        function initAboutTyping() {
+            const terminalText = document.getElementById('terminalText');
+            const aboutProgress = document.getElementById('aboutProgress');
+            const currentSection = document.getElementById('currentSection');
+            
+            const sections = [
+                {
+                    title: "TALABA - ASILBEK",
+                    text: "Qo'qon Davlat Universitetida Huquq yo'nalishi bo'yicha bakalavrni tamomlaganman. Hozirda Qoraqalpoq Davlat Universiteti Yuridika fakulteti magistratura talabasi sifatida o'qishni davom ettiryapman. Huquqiy bilimlarimni asta-sekin chuqurlashtirib, ularni amaliyotda qo'llashga harakat qilaman.",
+                    typeDelay: 30,
+                    pauseTime: 3000
+                },
+                {
+                    title: "DATA ANALYST - ASILBEK",
+                    text: "Ma'lumotlar bilan ishlash va ularni tushunarli xulosalarga aylantirishga qiziqaman. Asosan Excel va data tahlil asoslari bilan ishlayman, real misollar orqali tajribamni oshirib boryapman. Har bir loyiha orqali yaxshiroq tahlil qilish va aniqroq qarorlar chiqarishni o'rganishni maqsad qilganman.",
+                    typeDelay: 30,
+                    pauseTime: 3000
+                },
+                {
+                    title: "TECH ENTHUSIAST - ASILBEK",
+                    text: "Dasturlash va sun'iy intellekt mavzulariga qiziqaman. Yangi texnologiyalarni o'rganib, ularni amaliy kichik loyihalarda sinab ko'rishni yoqtiraman. Texnologiya orqali muammolarni soddaroq va samaraliroq hal qilish yo'llarini izlayman.",
+                    typeDelay: 30,
+                    pauseTime: 3000
+                }
+            ];
+            
+            let currentIndex = 0;
+            let isTyping = false;
+            let isPaused = false;
+            let timeoutId = null;
+            
+            // Type writer function
+            async function typeWriter(text, element, delay = 30) {
+                isTyping = true;
+                element.innerHTML = '';
+                
+                for (let i = 0; i < text.length; i++) {
+                    if (isPaused) {
+                        await waitForResume();
+                    }
+                    
+                    element.innerHTML += text[i];
+                    await sleep(delay);
+                }
+                
+                isTyping = false;
+            }
+            
+            // Delete text function
+            async function deleteText(element, delay = 20) {
+                isTyping = true;
+                const text = element.innerHTML;
+                
+                for (let i = text.length; i >= 0; i--) {
+                    if (isPaused) {
+                        await waitForResume();
+                    }
+                    
+                    element.innerHTML = text.substring(0, i);
+                    await sleep(delay);
+                }
+                
+                isTyping = false;
+            }
+            
+            // Sleep function
+            function sleep(ms) {
+                return new Promise(resolve => timeoutId = setTimeout(resolve, ms));
+            }
+            
+            // Wait for resume
+            async function waitForResume() {
+                return new Promise(resolve => {
+                    const checkResume = setInterval(() => {
+                        if (!isPaused) {
+                            clearInterval(checkResume);
+                            resolve();
+                        }
+                    }, 100);
+                });
+            }
+            
+            // Show section function
+            async function showSection(index) {
+                currentIndex = index;
+                const section = sections[index];
+                
+                // Clear terminal
+                terminalText.innerHTML = '';
+                
+                // Create terminal elements
+                const promptLine = document.createElement('div');
+                promptLine.className = 'text-line';
+                
+                const promptSpan = document.createElement('span');
+                promptSpan.className = 'prompt';
+                promptSpan.textContent = 'asilbek@portfolio';
+                
+                const commandSpan = document.createElement('span');
+                commandSpan.className = 'command';
+                commandSpan.textContent = ' cat about.txt';
+                
+                promptLine.appendChild(promptSpan);
+                promptLine.appendChild(commandSpan);
+                
+                // Add typing cursor
+                const cursorDiv = document.createElement('div');
+                cursorDiv.className = 'cursor';
+                
+                // Type the command
+                await typeWriter('cat about.txt', commandSpan, 50);
+                await sleep(500);
+                
+                // Show command output
+                const outputDiv = document.createElement('div');
+                outputDiv.className = 'text-line output';
+                terminalText.appendChild(promptLine);
+                terminalText.appendChild(outputDiv);
+                
+                // Type title
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'section-title';
+                outputDiv.appendChild(titleDiv);
+                
+                await typeWriter(section.title, titleDiv, section.typeDelay);
+                await sleep(300);
+                
+                // Type text
+                const textDiv = document.createElement('div');
+                textDiv.className = 'section-text';
+                outputDiv.appendChild(textDiv);
+                
+                await typeWriter(section.text, textDiv, section.typeDelay);
+                await sleep(section.pauseTime);
+                
+                // Delete text
+                await deleteText(outputDiv, 20);
+                
+                // Move to next section
+                if (!isPaused) {
+                    showSection((index + 1) % sections.length);
+                }
+            }
+            
+            // Control buttons
+            const pauseBtn = document.getElementById('pauseBtn');
+            const skipBtn = document.getElementById('skipBtn');
+            const replayBtn = document.getElementById('replayBtn');
+            
+            if (pauseBtn) {
+                pauseBtn.addEventListener('click', function() {
+                    isPaused = !isPaused;
+                    const icon = this.querySelector('i');
+                    const text = this.querySelector('span');
+                    
+                    if (isPaused) {
+                        icon.className = 'fas fa-play';
+                        text.textContent = 'Davom ettirish';
+                        this.style.borderColor = '#10b981';
+                        this.style.color = '#10b981';
+                    } else {
+                        icon.className = 'fas fa-pause';
+                        text.textContent = 'Pause';
+                        this.style.borderColor = '';
+                        this.style.color = '';
+                    }
+                });
+            }
+            
+            if (skipBtn) {
+                skipBtn.addEventListener('click', function() {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    showSection((currentIndex + 1) % sections.length);
+                });
+            }
+            
+            if (replayBtn) {
+                replayBtn.addEventListener('click', function() {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    showSection(0);
+                });
+            }
+            
+            // Start the typing effect
+            showSection(0);
         }
     </script>
 </body>
