@@ -1729,3 +1729,191 @@
         top: 15px;
     }
 }
+
+/* Haqida bo'limi uchun yangi stillar */
+
+/* Terminal styles */
+.terminal {
+    background: #1a1b26;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: terminalAppear 0.8s var(--ease-out) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes terminalAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.terminal-header {
+    background: #24283b;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #414868;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: transform 0.3s var(--ease-out);
+}
+
+.dot.red {
+    background: #ff5f57;
+}
+
+.dot.yellow {
+    background: #ffbd2e;
+}
+
+.dot.green {
+    background: #28ca42;
+}
+
+.dot:hover {
+    transform: scale(1.2);
+}
+
+.terminal-title {
+    color: #a9b1d6;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.terminal-body {
+    padding: 25px;
+    min-height: 280px;
+    font-family: 'Courier New', monospace;
+    color: #c0caf5;
+    line-height: 1.6;
+    font-size: 15px;
+    position: relative;
+    background: 
+        linear-gradient(transparent 95%, rgba(120, 120, 255, 0.03) 100%);
+    background-size: 100% 24px;
+}
+
+/* Typing effect styles */
+.text-line {
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: textLineAppear 0.3s forwards;
+}
+
+@keyframes textLineAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.prompt {
+    color: #7aa2f7;
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.prompt::after {
+    content: '$';
+    color: #9ece6a;
+}
+
+.command {
+    color: #e0af68;
+}
+
+.output {
+    color: #9ece6a;
+    margin-top: 5px;
+    padding-left: 20px;
+}
+
+/* Cursor animation */
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 20px;
+    background: #7aa2f7;
+    margin-left: 4px;
+    animation: cursorBlink 1s infinite;
+    vertical-align: middle;
+}
+
+@keyframes cursorBlink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+/* Typing effect for sections */
+.section-title {
+    color: #bb9af7;
+    font-size: 18px;
+    margin: 20px 0 10px 0;
+    animation: sectionTitleGlow 3s ease-in-out infinite;
+}
+
+@keyframes sectionTitleGlow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(187, 154, 247, 0.3);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(187, 154, 247, 0.6);
+    }
+}
+
+.section-text {
+    color: #c0caf5;
+    margin-bottom: 15px;
+    line-height: 1.7;
+}
+
+/* Responsive design */
+@media (max-width: 428px) {
+    .terminal-body {
+        padding: 20px;
+        min-height: 240px;
+        font-size: 14px;
+    }
+    
+    .about-controls {
+        flex-wrap: wrap;
+    }
+    
+    .btn.outline {
+        min-width: calc(33.333% - 8px);
+        padding: 12px;
+    }
+}
