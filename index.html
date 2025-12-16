@@ -178,14 +178,6 @@
             </div>
 
             <div class="actions">
-                <button class="btn primary" onclick="showPage('portfolio')">
-                    <i class="fas fa-briefcase"></i>
-                    Loyihalarim
-                </button>
-                <button class="btn secondary" onclick="showPage('about')">
-                    <i class="fas fa-user"></i>
-                    Haqimda
-                </button>
                 <button class="btn secondary" onclick="showPage('contact')">
                     <i class="fas fa-paper-plane"></i>
                     Bog'lanish
@@ -256,29 +248,11 @@
 
                 <!-- Loading progress -->
                 <div class="about-progress">
-                    <div class="progress-label">Yuklanmoqda...</div>
-                    <div class="progress-bar">
                         <div class="progress-fill" id="aboutProgress"></div>
                     </div>
                     <div class="progress-text">
-                        <span id="currentSection">0</span> / 3 bo'lim
+                        <span id="currentSection"></span>
                     </div>
-                </div>
-
-                <!-- Control buttons -->
-                <div class="about-controls">
-                    <button class="btn outline" id="pauseBtn">
-                        <i class="fas fa-pause"></i>
-                        <span>Pause</span>
-                    </button>
-                    <button class="btn outline" id="skipBtn">
-                        <i class="fas fa-forward"></i>
-                        <span>Keyingi</span>
-                    </button>
-                    <button class="btn outline" id="replayBtn">
-                        <i class="fas fa-redo"></i>
-                        <span>Qayta boshlash</span>
-                    </button>
                 </div>
             </div>
         </section>
@@ -848,10 +822,6 @@
             async function showSection(index) {
                 currentIndex = index;
                 const section = sections[index];
-                
-                // Update progress
-                aboutProgress.style.width = `${((index + 1) / sections.length) * 100}%`;
-                currentSection.textContent = index + 1;
                 
                 // Clear terminal
                 terminalText.innerHTML = '';
