@@ -427,43 +427,84 @@
             initInteractiveAvatar();
         }
     
-        function initTypewriter() {
-            const typingText = document.getElementById('typingText');
-            if (!typingText) return;
-            
-            const texts = ["Data Analyst", "Texnologiya Ishqibozi", "Havaskor Yurist"];
-            let textIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-            let typingSpeed = 100;
-            
-            function type() {
-                const currentText = texts[textIndex];
-                
-                if (isDeleting) {
-                    typingText.textContent = currentText.substring(0, charIndex - 1);
-                    charIndex--;
-                    typingSpeed = 50;
-                } else {
-                    typingText.textContent = currentText.substring(0, charIndex + 1);
-                    charIndex++;
-                    typingSpeed = 100;
-                }
-                
-                if (!isDeleting && charIndex === currentText.length) {
-                    isDeleting = true;
-                    typingSpeed = 1500;
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    textIndex = (textIndex + 1) % texts.length;
-                    typingSpeed = 500;
-                }
-                
-                setTimeout(type, typingSpeed);
-            }
-            
-            setTimeout(type, 1000);
+        let typingInterval; // Global variable to track typing interval
+
+function initTypewriter() {
+    const typingText = document.getElementById('typingText');
+    if (!typingText) return;
+    
+    // Clear any existing interval
+    if (typingInterval) {
+        clearInterval(typingInterval);
+    }
+    
+    const texts = ["Data Analyst", "Texnologiya Ishqibozi", "Havaskor Yurist"];
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 100;
+    
+    function type() {
+        const currentText = texts[textIndex];
+        
+        if (isDeleting) {
+            typingText.textContent = currentText.substring(0, charIndex - 1);
+            charIndex--;
+            typingSpeed = 50;
+        } else {
+            typingText.textContent = currentText.substring(0, charIndex + 1);
+            charIndex++;
+            typingSpeed = 100;
         }
+        
+        if (!isDeleting && charIndex === currentText.length) {
+            isDeleting = true;
+            typingSpeed = 1500;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            typingSpeed = 500;
+        }
+        
+        typingInterval = setTimeout(type, typingSpeed);
+    }
+    
+    typingInterval = setTimeout(type, 1000);
+}
+
+// Also update the showPage function to properly manage typing
+function showPage(pageId) {
+    // Clear typing effect when leaving home page
+    if (!typingInterval && pageId !== 'home') {
+        if (typingInterval) {
+            clearTimeout(typingInterval);
+            typingInterval = null;
+        }
+    }
+    
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    document.getElementById(pageId).classList.add('active');
+    
+    const pageIndex = ['home', 'portfolio', 'about', 'contact'].indexOf(pageId);
+    if (pageIndex !== -1) {
+        document.querySelectorAll('.nav-btn')[pageIndex].classList.add('active');
+    }
+    
+    window.scrollTo(0, 0);
+    
+    if (pageId === 'home') {
+        setTimeout(() => {
+            initTypewriter(); // Restart typing effect only on home page
+        }, 100);
+    }
+}
     
         function initTimeDisplay() {
             const timeElement = document.getElementById('currentTime');
@@ -656,26 +697,7 @@
                     this.parentElement.classList.remove('has-value');
                     return;
                 }
-                
-                // Formatlash: 90 123 45 67
-                let formatted = '';
-                if (value.length >= 2) {
-                    formatted = value.substring(0, 2);
-                    if (value.length >= 5) {
-                        formatted += ' ' + value.substring(2, 5);
-                        if (value.length >= 7) {
-                            formatted += ' ' + value.substring(5, 7);
-                            if (value.length >= 9) {
-                                formatted += ' ' + value.substring(7, 9);
-                            }
-                        }
-                    } else if (value.length > 2) {
-                        formatted += ' ' + value.substring(2);
-                    }
-                } else {
-                    formatted = value;
-                }
-                
+                           
                 this.value = formatted;
                 this.placeholder = '';
                 this.parentElement.classList.add('has-value');
@@ -703,8 +725,8 @@
                         case 'phone':
                             contactInput.type = 'tel';
                             contactInput.inputMode = 'numeric';
-                            contactInput.maxLength = 12;
-                            contactInput.placeholder = '90 123 45 67';
+                            contactInput.maxLength = 9;
+                            contactInput.placeholder = '901234567';
                             contactPrefix.textContent = '+998';
                             contactPrefix.style.display = 'flex';
                             contactLabel.textContent = 'Telefon raqamingiz';
@@ -788,22 +810,6 @@
                         // Bo'shliqlarni olib tashlash
                         contactValue = contactValue.replace(/\s/g, '');
                         
-                        // 9 ta raqam va 90 bilan boshlanishini tekshirish
-                        if (contactValue.length !== 9) {
-                            showToast({
-                                type: 'error',
-                                title: 'Noto\'g\'ri format',
-                                message: 'Telefon raqami 9 ta raqamdan iborat bo\'lishi kerak'
-                            });
-                            validationPassed = false;
-                        } else if (!/^90/.test(contactValue)) {
-                            showToast({
-                                type: 'error',
-                                title: 'Noto\'g\'ri format',
-                                message: 'Telefon raqami 90 bilan boshlanishi kerak (masalan: 901234567)'
-                            });
-                            validationPassed = false;
-                        }
                         contactInfo = `+998${contactValue}`;
                         break;
                         
