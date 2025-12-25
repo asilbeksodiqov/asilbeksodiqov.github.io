@@ -145,7 +145,7 @@
             <div class="hero">
                 <div class="avatar-container">
                     <div class="avatar interactive-avatar" onclick="toggleQuickFacts()">
-                        <img src="avatar.jpg" alt="Asilbek Sodiqov" class="avatar-img">
+                        <img src="Asilbek_Sodiqov.jpg" alt="Asilbek Sodiqov" class="avatar-img">
                         <div class="avatar-badge">
                             <i class="fas fa-info"></i>
                         </div>
@@ -156,7 +156,7 @@
                         <ul>
                             <li><i class="fas fa-map-marker-alt"></i> Farg`ona, Furqat</li>
                             <li><i class="fas fa-graduation-cap"></i> Texnologiya + Huquq</li>
-                            <li><i class="fas fa-briefcase"></i> "Ehtirom Plus" MMT</li>
+                            <li><i class="fas fa-briefcase"></i> Magistratura talabasi</li>
                             <li><i class="fas fa-rocket"></i> AI ishqibozi</li>
                         </ul>
                     </div>
@@ -184,48 +184,14 @@
                 <div class="bio-preview">
                     <p class="bio-text">
                         <span class="highlight">Ma`lumotlar Analitikasi</span> va 
-                        <span class="highlight">Huquqiy Bilim</span>larni birlashtiruvchi mutaxassis.
+                        <span class="highlight">Huquqiy Bilimlar</span>ni birlashtiruvchi mutaxassis.
                         <span class="read-more" onclick="showPage('about')">Men haqimda ko`proq →</span>
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Portfolio Page -->
-        <section class="page" id="portfolio">
-            <div class="header">
-                <button class="back-btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-left"></i>
-                    <span class="back-text">Loyihalar</span>
-                </button>
-            </div>
-
-            <div class="projects">
-                <div class="project-card" onclick="window.open('https://asilbeksodiqov.github.io/rps', '_blank')">
-                    <div class="project-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3>Rock Paper Scissors</h3>
-                        <p>JavaScript interaktiv o'yin</p>
-                    </div>
-                    <i class="fas fa-arrow-up-right-from-square"></i>
-                </div>
-
-                <div class="project-card" onclick="window.open('https://asilbeksodiqov.github.io/fit', '_blank')">
-                    <div class="project-icon">
-                        <i class="fas fa-running"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3>Fitness Tracker</h3>
-                        <p>Fitness monitoring vositasi</p>
-                    </div>
-                    <i class="fas fa-arrow-up-right-from-square"></i>
-                </div>
-            </div>
-        </section>
-
-        <!-- Haqida Page (YANGI DIZAYN) -->
+        <!-- Haqida Page -->
         <section class="page" id="about">
             <div class="header">
                 <button class="back-btn" onclick="showPage('home')">
@@ -376,8 +342,8 @@
             </form>
         
             <div class="social-links">
-                <a href="https://linkedin.com/in/asilbek-sodiqov-1580b2398" class="social-link">
-                    <i class="fab fa-linkedin"></i>
+                <a href="mailto:info@sodiqov.uz" class="social-link">
+                    <i class="fas fa-envelope"></i>
                 </a>
                 <a href="https://t.me/asilbek_sodiqov" class="social-link">
                     <i class="fab fa-telegram"></i>
@@ -396,14 +362,11 @@
             <button class="nav-btn active" onclick="showPage('home')">
                 <i class="fas fa-home"></i>
             </button>
-            <button class="nav-btn" onclick="showPage('portfolio')">
-                <i class="fas fa-briefcase"></i>
-            </button>
             <button class="nav-btn" onclick="showPage('about')">
                 <i class="fas fa-user"></i>
             </button>
             <button class="nav-btn" onclick="showPage('contact')">
-                <i class="fas fa-envelope"></i>
+                <i class="fa-solid fa-paper-plane"></i>
             </button>
         </nav>
     </main>
@@ -427,84 +390,84 @@
             initInteractiveAvatar();
         }
     
-        let typingInterval; // Global variable to track typing interval
+        let typingInterval;
 
-function initTypewriter() {
-    const typingText = document.getElementById('typingText');
-    if (!typingText) return;
-    
-    // Clear any existing interval
-    if (typingInterval) {
-        clearInterval(typingInterval);
-    }
-    
-    const texts = ["Data Analyst", "Texnologiya Ishqibozi", "Havaskor Yurist"];
-    let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typingSpeed = 100;
-    
-    function type() {
-        const currentText = texts[textIndex];
-        
-        if (isDeleting) {
-            typingText.textContent = currentText.substring(0, charIndex - 1);
-            charIndex--;
-            typingSpeed = 50;
-        } else {
-            typingText.textContent = currentText.substring(0, charIndex + 1);
-            charIndex++;
-            typingSpeed = 100;
+        function initTypewriter() {
+            const typingText = document.getElementById('typingText');
+            if (!typingText) return;
+            
+            if (typingInterval) {
+                clearInterval(typingInterval);
+            }
+            
+            const texts = ["Data Analyst", "Texnologiya Ishqibozi", "Havaskor Yurist"];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 100;
+            
+            function type() {
+                const currentText = texts[textIndex];
+                
+                if (isDeleting) {
+                    typingText.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                    typingSpeed = 50;
+                } else {
+                    typingText.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                    typingSpeed = 100;
+                }
+                
+                if (!isDeleting && charIndex === currentText.length) {
+                    isDeleting = true;
+                    typingSpeed = 1500;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    typingSpeed = 500;
+                }
+                
+                typingInterval = setTimeout(type, typingSpeed);
+            }
+            
+            typingInterval = setTimeout(type, 1000);
         }
-        
-        if (!isDeleting && charIndex === currentText.length) {
-            isDeleting = true;
-            typingSpeed = 1500;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            textIndex = (textIndex + 1) % texts.length;
-            typingSpeed = 500;
-        }
-        
-        typingInterval = setTimeout(type, typingSpeed);
-    }
-    
-    typingInterval = setTimeout(type, 1000);
-}
 
-// Also update the showPage function to properly manage typing
-function showPage(pageId) {
-    // Clear typing effect when leaving home page
-    if (!typingInterval && pageId !== 'home') {
-        if (typingInterval) {
-            clearTimeout(typingInterval);
-            typingInterval = null;
+        function showPage(pageId) {
+            if (typingInterval && pageId !== 'home') {
+                clearTimeout(typingInterval);
+                typingInterval = null;
+            }
+            
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            const pageOrder = ['home', 'about', 'contact'];
+            const pageIndex = pageOrder.indexOf(pageId);
+            if (pageIndex !== -1) {
+                document.querySelectorAll('.nav-btn')[pageIndex].classList.add('active');
+            }
+            
+            window.scrollTo(0, 0);
+            
+            if (pageId === 'home') {
+                setTimeout(() => {
+                    initTypewriter();
+                }, 100);
+            } else if (pageId === 'all') {
+                setTimeout(() => {
+                    initAllPage();
+                }, 100);
+            }
         }
-    }
-    
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-    
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    document.getElementById(pageId).classList.add('active');
-    
-    const pageIndex = ['home', 'portfolio', 'about', 'contact'].indexOf(pageId);
-    if (pageIndex !== -1) {
-        document.querySelectorAll('.nav-btn')[pageIndex].classList.add('active');
-    }
-    
-    window.scrollTo(0, 0);
-    
-    if (pageId === 'home') {
-        setTimeout(() => {
-            initTypewriter(); // Restart typing effect only on home page
-        }, 100);
-    }
-}
     
         function initTimeDisplay() {
             const timeElement = document.getElementById('currentTime');
@@ -622,75 +585,42 @@ function showPage(pageId) {
                 }
             }, 500);
         }
-    
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            document.getElementById(pageId).classList.add('active');
-            
-            const pageIndex = ['home', 'portfolio', 'about', 'contact'].indexOf(pageId);
-            if (pageIndex !== -1) {
-                document.querySelectorAll('.nav-btn')[pageIndex].classList.add('active');
-            }
-            
-            window.scrollTo(0, 0);
-            
-            if (pageId === 'home') {
-                setTimeout(() => {
-                    initSmartFeatures();
-                }, 100);
-            }
-        }
-    
+
         // TELEFON RAQAMI FORMATLASH VA VALIDATION
         function initPhoneNumberFormatting() {
             const phoneInput = document.getElementById('contact_input');
             if (!phoneInput) return;
             
-            // Faqat raqamlarga ruxsat berish
             phoneInput.addEventListener('keypress', function(e) {
                 const activeType = document.querySelector('.type-option.active')?.dataset.type || 'phone';
                 
                 if (activeType !== 'phone') return;
                 
-                // Faqat raqamlar va backspace, delete, arrow keys
                 const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
                 if (allowedKeys.includes(e.key)) return;
                 
-                // Faqat raqamlarga ruxsat berish
                 if (!/^\d$/.test(e.key)) {
                     e.preventDefault();
                     return;
                 }
                 
-                // Max 9 ta raqam cheklash
                 const currentValue = this.value.replace(/\D/g, '');
                 if (currentValue.length >= 9) {
                     e.preventDefault();
                 }
             });
             
-            // Formatlash funksiyasi
             phoneInput.addEventListener('input', function() {
                 const activeType = document.querySelector('.type-option.active')?.dataset.type || 'phone';
                 
                 if (activeType !== 'phone') return;
                 
-                // Faqat raqamlarni olish
                 let value = this.value.replace(/\D/g, '');
                 
-                // Max 9 ta raqam
                 if (value.length > 9) {
                     value = value.substring(0, 9);
                 }
                 
-                // Agar hali hech narsa kiritilmagan bo'lsa, placeholder qo'yish
                 if (value.length === 0) {
                     this.value = '';
                     this.placeholder = '90 123 45 67';
@@ -698,7 +628,7 @@ function showPage(pageId) {
                     return;
                 }
                            
-                this.value = formatted;
+                this.value = value.replace(/(\d{2})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
                 this.placeholder = '';
                 this.parentElement.classList.add('has-value');
             });
@@ -717,7 +647,7 @@ function showPage(pageId) {
                     this.classList.add('active');
                     
                     const type = this.dataset.type;
-                    contactInput.value = ''; // Har bir almashtirishda maydonni tozalash
+                    contactInput.value = '';
                     contactInput.placeholder = '';
                     contactFieldContainer.classList.remove('has-value');
                     
@@ -731,8 +661,6 @@ function showPage(pageId) {
                             contactPrefix.style.display = 'flex';
                             contactLabel.textContent = 'Telefon raqamingiz';
                             contactFieldContainer.className = 'floating-label-dynamic phone-mode';
-                            
-                            // Patternni olib tashlash
                             contactInput.removeAttribute('pattern');
                             break;
                             
@@ -752,7 +680,7 @@ function showPage(pageId) {
                             contactInput.type = 'email';
                             contactInput.inputMode = 'email';
                             contactInput.maxLength = 255;
-                            contactInput.placeholder = 'email@example.com';
+                            contactInput.placeholder = 'sth@email.com';
                             contactPrefix.textContent = '';
                             contactPrefix.style.display = 'none';
                             contactLabel.textContent = 'Email manzilingiz';
@@ -771,11 +699,10 @@ function showPage(pageId) {
                 const phoneOption = document.querySelector('.type-option[data-type="phone"]');
                 if (phoneOption) {
                     phoneOption.classList.add('active');
-                    contactInput.removeAttribute('pattern'); // Boshlang'ich holatda patternni olib tashlash
+                    contactInput.removeAttribute('pattern');
                 }
             }
             
-            // Telefon raqami formatlashni ishga tushurish
             initPhoneNumberFormatting();
         }
     
@@ -791,12 +718,11 @@ function showPage(pageId) {
                 let contactValue = document.getElementById('contact_input').value.trim();
                 const message = document.getElementById('message').value.trim();
                 
-                // Barcha maydonlarni tekshirish
                 if (!name || !contactValue || !message) {
                     showToast({
                         type: 'warning',
                         title: 'Diqqat!',
-                        message: 'Iltimos, barcha maydonlarni to\'ldiring'
+                        message: 'Iltimos, barcha maydonlarni to`ldiring'
                     });
                     return;
                 }
@@ -804,24 +730,21 @@ function showPage(pageId) {
                 let contactInfo = '';
                 let validationPassed = true;
                 
-                // Validation turi bo'yicha
                 switch(contactType) {
                     case 'phone':
-                        // Bo'shliqlarni olib tashlash
                         contactValue = contactValue.replace(/\s/g, '');
                         
                         contactInfo = `+998${contactValue}`;
                         break;
                         
                     case 'telegram':
-                        // @ belgisini olib tashlash
                         contactValue = contactValue.replace(/^@/, '');
                         
                         if (contactValue.length < 4) {
                             showToast({
                                 type: 'error',
-                                title: 'Noto\'g\'ri format',
-                                message: 'Telegram username kamida 5 belgidan iborat bo\'lishi kerak'
+                                title: 'Noto`g`ri format',
+                                message: 'Telegram username kamida 5 belgidan iborat bo`lishi kerak'
                             });
                             validationPassed = false;
                         }
@@ -833,8 +756,8 @@ function showPage(pageId) {
                         if (!emailRegex.test(contactValue)) {
                             showToast({
                                 type: 'error',
-                                title: 'Noto\'g\'ri format',
-                                message: 'Iltimos, to\'g\'ri email manzilini kiriting'
+                                title: 'Noto`g`ri format',
+                                message: 'Iltimos, to`g`ri email manzilini kiriting'
                             });
                             validationPassed = false;
                         }
@@ -844,14 +767,12 @@ function showPage(pageId) {
                 
                 if (!validationPassed) return;
                 
-                // Submit tugmasini bloklash
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuborilmoqda...';
                 
                 try {
-                    // Telegram bot token va chat ID
                     const TELEGRAM_BOT_TOKEN = '8561049037:AAEbMoh0BTPRx5mUR99ui-uyg764vGO8spY';
                     const TELEGRAM_CHAT_ID = '7123672881';
     
@@ -862,7 +783,7 @@ function showPage(pageId) {
                         },
                         body: JSON.stringify({
                             chat_id: TELEGRAM_CHAT_ID,
-                            text: `📬 Yangi xabar\n👤 Ism: ${name}\n📞 ${contactType.toUpperCase()}: ${contactInfo}\n💬 Xabar: ${message}`
+                            text: `📬 Yangi xabar | sodiqov.uz\n👤 Ism: ${name}\n📞 ${contactType.toUpperCase()}: ${contactInfo}\n💬 Xabar: ${message}`
                         })
                     });
                     
@@ -873,15 +794,12 @@ function showPage(pageId) {
                             message: 'Xabaringiz yuborildi! Tez orada aloqaga chiqamiz.'
                         });
                         
-                        // Formni tozalash
                         form.reset();
                         
-                        // Floating label holatlarini yangilash
                         document.querySelectorAll('.floating-label, .floating-label-dynamic').forEach(el => {
                             el.classList.remove('has-value');
                         });
                         
-                        // Kontakt turini telefon ga qaytarish
                         document.querySelectorAll('.type-option').forEach(opt => {
                             opt.classList.remove('active');
                             if (opt.dataset.type === 'phone') {
@@ -889,7 +807,6 @@ function showPage(pageId) {
                             }
                         });
                         
-                        // Telefon rejimini tiklash
                         const contactInput = document.getElementById('contact_input');
                         const contactPrefix = document.getElementById('contactPrefix');
                         const contactLabel = document.getElementById('contactLabel');
@@ -905,7 +822,6 @@ function showPage(pageId) {
                         contactFieldContainer.className = 'floating-label-dynamic phone-mode';
                         contactInput.removeAttribute('pattern');
                         
-                        // 2 soniyadan keyin home sahifaga qaytish
                         setTimeout(() => {
                             showPage('home');
                         }, 2000);
@@ -917,7 +833,7 @@ function showPage(pageId) {
                     showToast({
                         type: 'error',
                         title: 'Xatolik!',
-                        message: 'Xatolik yuz berdi. Iltimos, keyinroq urinib ko\'ring.'
+                        message: 'Xatolik yuz berdi. Iltimos, keyinroq urinib ko`ring.'
                     });
                     console.error(error);
                 } finally {
@@ -926,7 +842,6 @@ function showPage(pageId) {
                 }
             });
             
-            // Floating labellar uchun hodisalar
             const floatingInputs = document.querySelectorAll('.floating-label input, .floating-label textarea, .floating-label-dynamic input');
             floatingInputs.forEach(input => {
                 input.addEventListener('input', function() {
@@ -948,7 +863,6 @@ function showPage(pageId) {
                     }
                 });
                 
-                // Mavjud qiymatlarni tekshirish
                 if (input.value.trim()) {
                     input.parentElement.classList.add('has-value');
                 }
@@ -963,7 +877,6 @@ function showPage(pageId) {
                 duration = 4000
             } = options;
             
-            // Oldingi toastni olib tashlash
             const existingToast = document.querySelector('.toast.show');
             if (existingToast) {
                 existingToast.classList.remove('show');
@@ -974,7 +887,6 @@ function showPage(pageId) {
                 }, 400);
             }
             
-            // Yangi toast yaratish
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             
@@ -997,12 +909,10 @@ function showPage(pageId) {
             
             document.body.appendChild(toast);
             
-            // Kichik kechikish bilan ko'rsatish
             setTimeout(() => {
                 toast.classList.add('show');
             }, 10);
             
-            // Avtomatik yopish
             if (duration > 0) {
                 setTimeout(() => {
                     if (toast.parentNode) {
@@ -1021,4 +931,3 @@ function showPage(pageId) {
     </script>
 </body>
 </html>
-
