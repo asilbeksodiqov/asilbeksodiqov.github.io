@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="uz" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Yangiliklar | Asilbek Sodiqov</title>
+    <meta name="description" content="Asilbek Sodiqov — Yangiliklar">
+    <meta name="theme-color" content="#2D3436">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ── VARIABLES ── */
+        :root {
+            --charcoal:  #2D3436;
+            --charcoal-2:#3d4a4c;
+            --white:     #FFFFFF;
+            --gold:      #C9A84C;
+            --gold-light:#dbbe70;
+            --gold-dim:  rgba(201,168,76,.18);
+            --mist:      #DFE6E9;
+            --mist-2:    #edf1f3;
+            --border:    #d8e2e5;
+            --border-2:  #eaf0f2;
+            --text-2:    #5a6a6d;
+            --text-3:    #9aabad;
+            --success:   #27ae60;
+            --error:     #e74c3c;
+
+            --ease:    cubic-bezier(.25,.46,.45,.94);
+            --spring:  cubic-bezier(.34,1.56,.64,1);
+            --tf: 160ms;
+            --t:  300ms;
+            --ts: 480ms;
+
+            --r:     14px;
+            --r-lg:  20px;
+            --r-xl:  28px;
+            --r-full:9999px;
+
+            --sh-sm: 0 4px 14px rgba(45,52,54,.12);
+            --sh:    0 8px 28px rgba(45,52,54,.16);
+            --sh-gold: 0 6px 22px rgba(201,168,76,.32);
+
+            --bar-h: 3px;    /* progress bar thickness */
+            --bottom-h: 80px;/* bottom action bar height */
+        }
+
+        /* ── RESET ── */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { -webkit-tap-highlight-color:transparent; overscroll-behavior:none; }
+        body {
+            font-family: 'Outfit', system-ui, sans-serif;
+            background: var(--charcoal);
+            color: var(--white);
+            height: 100dvh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        button { font-family:inherit; cursor:pointer; border:none; background:none; }
+        a { text-decoration:none; color:inherit; }
+        img, video { display:block; width:100%; height:100%; object-fit:cover; }
+
+        /* ── APP SHELL ── */
+        #app {
+            max-width: 480px;
+            height: 100dvh;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            background: var(--charcoal);
+        }
+
+        @media (min-width: 520px) {
+            body { background: #1a1f20; display:flex; align-items:center; justify-content:center; }
+            #app { border-radius: var(--r-xl); box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 32px 80px rgba(0,0,0,.5); }
+        }
+
+        /* ══════════════════════════════════════
+           LOADING
+        ══════════════════════════════════════ */
+        #loading {
+            position: absolute; inset:0; z-index:9999;
+            background: var(--charcoal);
+            display: flex; align-items:center; justify-content:center;
+            transition: opacity var(--ts) var(--ease);
+        }
+        .splash-loader {
+            width: 40px; height:40px;
+            border-radius: 50%;
+            border: 2px solid rgba(201,168,76,.18);
+            border-top-color: var(--gold);
+            animation: spin 800ms linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ══════════════════════════════════════
+           STORY VIEWER
+        ══════════════════════════════════════ */
+        #viewer {
+            position: absolute; inset:0;
+            display: flex; flex-direction:column;
+            opacity: 0;
+            transition: opacity 400ms var(--ease);
+        }
+        #viewer.ready { opacity:1; }
+
+        /* ── Progress bars ── */
+        .progress-bars {
+            position: absolute;
+            top: env(safe-area-inset-top, 0);
+            left: 0; right:0;
+            z-index: 20;
+            display: flex; gap: 5px;
+            padding: 14px 14px 0;
+        }
+
+        .prog-bar {
+            flex: 1;
+            height: var(--bar-h);
+            background: rgba(255,255,255,.25);
+            border-radius: var(--r-full);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform var(--tf) var(--ease);
+        }
+        .prog-bar:hover { transform: scaleY(1.8); }
+
+        .prog-bar__fill {
+            height: 100%;
+            border-radius: var(--r-full);
+            background: var(--white);
+            width: 0%;
+            transition: width 0ms linear;
+        }
+
+        /* Visited = full */
+        .prog-bar.visited .prog-bar__fill { width: 100%; }
+        /* Active = no transition (manual) */
+        .prog-bar.active .prog-bar__fill  { /* width set by JS */ }
+
+        /* ── Top bar (back + counter) ── */
+        .top-bar {
+            position: absolute;
+            top: calc(env(safe-area-inset-top, 0px) + 28px);
+            left: 0; right:0;
+            z-index: 20;
+            display: flex; align-items:center; justify-content:space-between;
+            padding: 10px 16px 0;
+        }
+
+        .back-btn {
+            display: inline-flex; align-items:center; gap:7px;
+            padding: 8px 14px 8px 11px;
+            background: rgba(0,0,0,.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: var(--r-full);
+            font-size: 13px; font-weight:600;
+            color: var(--white);
+            transition: all var(--tf) var(--ease);
+        }
+        .back-btn:hover { background: rgba(0,0,0,.55); }
+        .back-btn i { font-size:11px; }
+
+        .story-counter {
+            padding: 6px 12px;
+            background: rgba(0,0,0,.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: var(--r-full);
+            font-size: 12px; font-weight:700;
+            color: rgba(255,255,255,.85);
+            letter-spacing: .04em;
+        }
+
+        /* ── Slides container ── */
+        .slides-wrap {
+            position: absolute; inset:0;
+            display: flex;
+            transition: transform 380ms var(--ease);
+            will-change: transform;
+        }
+
+        .slide {
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Media (image or video) fills slide */
+        .slide__media {
+            position: absolute; inset:0;
+        }
+
+        /* Gradient overlays */
+        .slide::before {
+            content:'';
+            position: absolute; inset:0; z-index:1;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,.45) 0%,
+                transparent 30%,
+                transparent 55%,
+                rgba(0,0,0,.70) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* Slide content (news title, etc.) */
+        .slide__content {
+            position: absolute;
+            bottom: calc(var(--bottom-h) + 24px);
+            left:0; right:0;
+            z-index: 5;
+            padding: 0 20px;
+        }
+
+        .slide__tag {
+            display: inline-flex; align-items:center; gap:6px;
+            padding: 4px 11px;
+            background: var(--gold);
+            color: var(--charcoal);
+            border-radius: var(--r-full);
+            font-size: 10px; font-weight:800;
+            letter-spacing: .08em; text-transform:uppercase;
+            margin-bottom: 10px;
+        }
+
+        .slide__title {
+            font-size: 22px; font-weight:800;
+            line-height: 1.25;
+            letter-spacing: -.02em;
+            text-shadow: 0 2px 12px rgba(0,0,0,.4);
+            margin-bottom: 8px;
+        }
+
+        .slide__desc {
+            font-size: 13px; font-weight:400;
+            color: rgba(255,255,255,.75);
+            line-height: 1.5;
+            text-shadow: 0 1px 6px rgba(0,0,0,.35);
+        }
+
+        /* ── Tap zones (left/right navigation) ── */
+        .tap-zones {
+            position: absolute; inset:0; z-index:10;
+            display: flex;
+        }
+        .tap-left, .tap-right {
+            height: 100%;
+            flex: 1;
+            cursor: pointer;
+        }
+        /* Slightly wider right zone */
+        .tap-left  { flex: 0 0 35%; }
+        .tap-right { flex: 1; }
+
+        /* ── Swipe hint (first visit) ── */
+        .swipe-hint {
+            position: absolute;
+            bottom: calc(var(--bottom-h) + 100px);
+            left:50%; transform:translateX(-50%);
+            z-index: 15;
+            display: flex; flex-direction:column; align-items:center; gap:8px;
+            opacity: 0;
+            animation: hintIn 600ms var(--ease) 1200ms forwards,
+                       hintOut 400ms var(--ease) 3200ms forwards;
+            pointer-events: none;
+        }
+        .swipe-hint span {
+            font-size: 11px; font-weight:600;
+            letter-spacing: .06em; text-transform:uppercase;
+            color: rgba(255,255,255,.6);
+        }
+        .swipe-hint-arrows {
+            display: flex; gap: 16px;
+        }
+        .swipe-hint-arrows i {
+            font-size: 20px;
+            color: rgba(255,255,255,.5);
+            animation: nudge 800ms var(--ease) infinite alternate;
+        }
+        .swipe-hint-arrows i:first-child { animation-delay: 0ms; }
+        .swipe-hint-arrows i:last-child  { animation-delay: 200ms; }
+
+        @keyframes nudge {
+            from { transform: translateX(0); opacity:.4; }
+            to   { transform: translateX(4px); opacity:.9; }
+        }
+        .swipe-hint-arrows i:first-child {
+            animation-direction: alternate-reverse;
+        }
+        @keyframes hintIn  { to { opacity:1; } }
+        @keyframes hintOut { to { opacity:0; } }
+
+        /* ══════════════════════════════════════
+           BOTTOM ACTION BAR
+        ══════════════════════════════════════ */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0; left:0; right:0;
+            z-index: 20;
+            height: calc(var(--bottom-h) + env(safe-area-inset-bottom, 0px));
+            padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+            display: flex; align-items:center; gap: 8px;
+            background: linear-gradient(to top, rgba(0,0,0,.72) 0%, transparent 100%);
+        }
+
+        /* Message input */
+        .msg-wrap {
+            flex: 1;
+            position: relative;
+            display: flex; align-items:center;
+        }
+
+        .msg-input {
+            width: 100%;
+            padding: 11px 44px 11px 16px;
+            background: rgba(255,255,255,.13);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,.22);
+            border-radius: var(--r-full);
+            font-family: inherit; font-size: 14px;
+            color: var(--white);
+            outline: none;
+            transition: border-color var(--tf) var(--ease), background var(--tf) var(--ease);
+            -webkit-appearance: none;
+        }
+        .msg-input::placeholder { color: rgba(255,255,255,.45); }
+        .msg-input:focus {
+            background: rgba(255,255,255,.18);
+            border-color: rgba(201,168,76,.6);
+        }
+
+        /* Send button inside input */
+        .send-btn {
+            position: absolute; right:6px;
+            width: 32px; height:32px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--charcoal);
+            display: flex; align-items:center; justify-content:center;
+            font-size: 13px;
+            transition: all var(--tf) var(--ease);
+            flex-shrink: 0;
+        }
+        .send-btn:hover  { background: var(--gold-light); transform: scale(1.08); }
+        .send-btn:active { transform: scale(.94); }
+
+        /* Link button */
+        .link-btn {
+            flex-shrink: 0;
+            width: 46px; height:46px;
+            background: rgba(255,255,255,.13);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,.22);
+            border-radius: 50%;
+            display: flex; align-items:center; justify-content:center;
+            color: var(--white);
+            font-size: 17px;
+            transition: all var(--tf) var(--ease);
+            text-decoration: none;
+        }
+        .link-btn:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+            border-color: var(--gold);
+            transform: scale(1.06);
+            box-shadow: var(--sh-gold);
+        }
+
+        /* ══════════════════════════════════════
+           EMPTY STATE (0 stories)
+        ══════════════════════════════════════ */
+        #empty {
+            display: none;
+            position: absolute; inset:0; z-index:30;
+            flex-direction: column;
+            align-items: center; justify-content:center;
+            gap: 16px;
+            background: var(--charcoal);
+            text-align: center;
+            padding: 32px;
+        }
+        #empty.show { display:flex; }
+        .empty-icon {
+            width: 64px; height:64px;
+            background: rgba(201,168,76,.12);
+            border: 1px solid rgba(201,168,76,.25);
+            border-radius: 50%;
+            display: flex; align-items:center; justify-content:center;
+            font-size: 26px; color: var(--gold);
+        }
+        #empty h2 { font-size:20px; font-weight:700; }
+        #empty p  { font-size:14px; color:rgba(255,255,255,.5); line-height:1.55; }
+        .empty-back {
+            display: inline-flex; align-items:center; gap:8px;
+            padding: 12px 22px;
+            background: var(--gold);
+            color: var(--charcoal);
+            border-radius: var(--r-full);
+            font-size: 14px; font-weight:700;
+            margin-top: 8px;
+            transition: all var(--tf) var(--ease);
+        }
+        .empty-back:hover { background: var(--gold-light); }
+
+        /* ══════════════════════════════════════
+           TOAST
+        ══════════════════════════════════════ */
+        .toast {
+            position: fixed; top:-70px; left:50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px); max-width:400px;
+            background: rgba(45,52,54,.95);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: var(--r);
+            padding: 13px 16px;
+            display: flex; align-items:flex-start; gap:11px;
+            box-shadow: var(--sh);
+            z-index: 9999; opacity:0;
+            border-left: 3px solid var(--gold);
+            transition: top var(--t) var(--ease), opacity var(--t) var(--ease);
+            pointer-events: none;
+        }
+        .toast.show { top:14px; opacity:1; pointer-events:auto; }
+        .toast--success { border-left-color: #27ae60; }
+        .toast--error   { border-left-color: #e74c3c; }
+        .toast__icon { font-size:15px; flex-shrink:0; margin-top:2px; }
+        .toast--success .toast__icon { color:#27ae60; }
+        .toast--error   .toast__icon { color:#e74c3c; }
+        .toast__body {}
+        .toast__title { display:block; font-size:13px; font-weight:700; color:var(--white); margin-bottom:2px; }
+        .toast__msg   { font-size:12px; color:rgba(255,255,255,.6); line-height:1.45; }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(10px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration:.01ms !important;
+                transition-duration:.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+
+    <!-- LOADING -->
+    <div id="loading">
+        <div class="splash-loader"></div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div id="empty">
+        <div class="empty-icon"><i class="fas fa-newspaper"></i></div>
+        <h2>Yangilik yo'q</h2>
+        <p>Hozircha yangilik qo'shilmagan.<br>Tez orada yangiliklar bo'ladi!</p>
+        <a href="index.html" class="empty-back">
+            <i class="fas fa-arrow-left"></i> Bosh sahifaga
+        </a>
+    </div>
+
+    <!-- STORY VIEWER -->
+    <div id="viewer">
+
+        <!-- Progress bars (injected by JS) -->
+        <div class="progress-bars" id="progressBars"></div>
+
+        <!-- Top bar -->
+        <div class="top-bar">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Orqaga
+            </a>
+            <span class="story-counter" id="storyCounter">1 / 1</span>
+        </div>
+
+        <!-- Slides (injected by JS) -->
+        <div class="slides-wrap" id="slidesWrap"></div>
+
+        <!-- Tap zones -->
+        <div class="tap-zones" id="tapZones">
+            <div class="tap-left"  id="tapLeft"></div>
+            <div class="tap-right" id="tapRight"></div>
+        </div>
+
+        <!-- Swipe hint (only if >1 story) -->
+        <div class="swipe-hint" id="swipeHint">
+            <div class="swipe-hint-arrows">
+                <i class="fas fa-chevron-left"></i>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <span>chapga / o'ngga</span>
+        </div>
+
+        <!-- Bottom action bar -->
+        <div class="bottom-bar">
+            <div class="msg-wrap">
+                <input
+                    type="text"
+                    class="msg-input"
+                    id="msgInput"
+                    placeholder="Fikr bildiring…"
+                    maxlength="500"
+                    autocomplete="off"
+                >
+                <button class="send-btn" id="sendBtn" aria-label="Yuborish">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <a
+                href="https://sodiqov.uz/survey"
+                target="_blank"
+                rel="noopener"
+                class="link-btn"
+                aria-label="Havolaga o'tish"
+            >
+                <i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+        </div>
+
+    </div><!-- /#viewer -->
+
+</div><!-- /#app -->
+
+<script>
+/* ══════════════════════════════════════════════
+   STORIES DATA
+   Har bir story uchun:
+     id       — noyob identifikator (Telegram xabarida ko'rinadi)
+     tag      — kategoriya (masalan: "Yangilik", "E'lon", "Taklif")
+     title    — sarlavha
+     desc     — qisqa tavsif (ixtiyoriy, bo'sh qoldirsa ko'rinmaydi)
+     type     — "image" yoki "video"
+     src      — fayl yo'li yoki URL
+     link     — pastdagi tugma uchun link (bo'sh qoldirsa default link ishlatiladi)
+     bgColor  — media yuklanmasa, zaxira fon rangi
+══════════════════════════════════════════════ */
+const STORIES = [
+    {
+        id:      "yangilik-001",
+        tag:     "Yangilik",
+        title:   "Davlat xizmatlari tadqiqoti boshlandi",
+        desc:    "Magistratura dissertatsiyasi doirasida so'rovnoma ochiq — 3 daqiqa vaqtingiz yetarli.",
+        type:    "image",
+        src:     "Asilbek_Sodiqov.jpg",   /* <- o'z rasmingizni qo'ying */
+        link:    "https://sodiqov.uz/survey",
+        bgColor: "#1e2a2c"
+    },
+    {
+        id:      "yangilik-002",
+        tag:     "E'lon",
+        title:   "FinTrack yangilandi",
+        desc:    "Moliyaviy kuzatuvchi ilovada yangi byudjet rejalashtirish funksiyasi qo'shildi.",
+        type:    "image",
+        src:     "Asilbek_Sodiqov.jpg",   /* <- o'z rasmingizni qo'ying */
+        link:    "https://sodiqov.uz/fintrack",
+        bgColor: "#1a2420"
+    }
+    /* Yangi story qo'shish uchun yuqoridagi formatni takrorlang */
+];
+
+/* ══════════════════════════════════════════════
+   TELEGRAM CONFIG
+══════════════════════════════════════════════ */
+const TG_TOKEN   = "8561049037:AAEbMoh0BTPRx5mUR99ui-uyg764vGO8spY";
+const TG_CHAT_ID = "7123672881";
+
+/* ══════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════ */
+let current = 0;
+let total   = STORIES.length;
+let isSending = false;
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const l = document.getElementById('loading');
+        l.style.opacity = '0';
+        setTimeout(() => { l.style.display = 'none'; }, 500);
+
+        if (total === 0) {
+            document.getElementById('empty').classList.add('show');
+            return;
+        }
+
+        buildSlides();
+        buildProgressBars();
+        updateView(0, false);
+
+        document.getElementById('viewer').classList.add('ready');
+
+        /* Show swipe hint only if >1 story */
+        if (total <= 1) {
+            document.getElementById('swipeHint').style.display = 'none';
+        }
+    }, 900);
+
+    initNavigation();
+    initSend();
+    initSwipe();
+});
+
+/* ══════════════════════════════════════════════
+   BUILD DOM
+══════════════════════════════════════════════ */
+function buildSlides() {
+    const wrap = document.getElementById('slidesWrap');
+    wrap.innerHTML = '';
+
+    STORIES.forEach((s, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'slide';
+        slide.dataset.index = i;
+
+        /* Background color fallback */
+        slide.style.background = s.bgColor || '#1e2a2c';
+
+        /* Media */
+        const media = document.createElement('div');
+        media.className = 'slide__media';
+
+        if (s.type === 'video') {
+            const vid = document.createElement('video');
+            vid.src = s.src;
+            vid.autoplay = false;
+            vid.muted = true;
+            vid.loop = true;
+            vid.playsInline = true;
+            vid.preload = 'metadata';
+            media.appendChild(vid);
+        } else {
+            const img = document.createElement('img');
+            img.src = s.src;
+            img.alt = s.title;
+            img.loading = i === 0 ? 'eager' : 'lazy';
+            media.appendChild(img);
+        }
+
+        /* Content */
+        const content = document.createElement('div');
+        content.className = 'slide__content';
+        content.innerHTML = `
+            <div class="slide__tag"><i class="fas fa-circle" style="font-size:6px"></i> ${escHtml(s.tag)}</div>
+            <h2 class="slide__title">${escHtml(s.title)}</h2>
+            ${s.desc ? `<p class="slide__desc">${escHtml(s.desc)}</p>` : ''}
+        `;
+        content.style.animation = 'none'; /* reset for re-trigger */
+
+        slide.appendChild(media);
+        slide.appendChild(content);
+        wrap.appendChild(slide);
+    });
+}
+
+function buildProgressBars() {
+    const container = document.getElementById('progressBars');
+    container.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'prog-bar';
+        bar.dataset.index = i;
+        bar.innerHTML = '<div class="prog-bar__fill"></div>';
+        /* Click on bar jumps to that story */
+        bar.addEventListener('click', () => goTo(i));
+        container.appendChild(bar);
+    }
+}
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════════ */
+function initNavigation() {
+    document.getElementById('tapLeft').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('tapRight').addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+}
+
+function goTo(index) {
+    if (index < 0 || index >= total) return;
+    updateView(index, true);
+}
+
+function updateView(index, animate) {
+    current = index;
+
+    /* Slide transform */
+    const wrap = document.getElementById('slidesWrap');
+    wrap.style.transition = animate ? 'transform 380ms cubic-bezier(.25,.46,.45,.94)' : 'none';
+    wrap.style.transform  = `translateX(${-index * 100}%)`;
+
+    /* Counter */
+    document.getElementById('storyCounter').textContent = `${index + 1} / ${total}`;
+
+    /* Progress bars */
+    document.querySelectorAll('.prog-bar').forEach((bar, i) => {
+        bar.classList.remove('visited', 'active');
+        bar.querySelector('.prog-bar__fill').style.width = '0%';
+        if (i < index)      { bar.classList.add('visited'); bar.querySelector('.prog-bar__fill').style.width = '100%'; }
+        else if (i === index){ bar.classList.add('active');  bar.querySelector('.prog-bar__fill').style.width = '100%'; }
+    });
+
+    /* Content animation */
+    const slides = document.querySelectorAll('.slide__content');
+    if (slides[index]) {
+        const el = slides[index];
+        el.style.animation = 'none';
+        requestAnimationFrame(() => {
+            el.style.animation = 'fadeUp 450ms cubic-bezier(.25,.46,.45,.94) forwards';
+        });
+    }
+
+    /* Update link button href */
+    const story = STORIES[index];
+    const linkBtn = document.querySelector('.link-btn');
+    if (linkBtn) linkBtn.href = story.link || 'https://sodiqov.uz/survey';
+
+    /* Video play/pause */
+    document.querySelectorAll('.slide video').forEach((v, i) => {
+        if (i === index) v.play().catch(() => {});
+        else { v.pause(); v.currentTime = 0; }
+    });
+
+    /* Clear input */
+    const inp = document.getElementById('msgInput');
+    if (inp) inp.value = '';
+}
+
+/* ══════════════════════════════════════════════
+   SWIPE (touch)
+══════════════════════════════════════════════ */
+function initSwipe() {
+    const wrap = document.getElementById('slidesWrap');
+    let startX = 0, startY = 0, moved = false;
+
+    wrap.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        moved  = false;
+    }, { passive: true });
+
+    wrap.addEventListener('touchmove', e => {
+        moved = true;
+    }, { passive: true });
+
+    wrap.addEventListener('touchend', e => {
+        if (!moved) return;
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (Math.abs(dx) < Math.abs(dy) * 0.8) return; /* vertical scroll */
+        if (Math.abs(dx) < 40) return;
+        if (dx < 0) goTo(current + 1);
+        else        goTo(current - 1);
+    }, { passive: true });
+}
+
+/* ══════════════════════════════════════════════
+   SEND MESSAGE
+══════════════════════════════════════════════ */
+function initSend() {
+    const btn = document.getElementById('sendBtn');
+    const inp = document.getElementById('msgInput');
+
+    btn.addEventListener('click', sendMessage);
+    inp.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    });
+}
+
+async function sendMessage() {
+    if (isSending) return;
+    const inp  = document.getElementById('msgInput');
+    const text = inp.value.trim();
+    if (!text) return;
+
+    const story = STORIES[current];
+    const msg   = `💬 Yangilik izohi | sodiqov.uz/news\n\n📰 Story: [${story.id}] ${story.title}\n💬 Xabar: ${text}`;
+
+    isSending = true;
+    const btn = document.getElementById('sendBtn');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.style.pointerEvents = 'none';
+
+    try {
+        const r = await fetch(
+            `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TG_CHAT_ID, text: msg })
+            }
+        );
+        if (!r.ok) throw new Error();
+        inp.value = '';
+        showToast('success', 'Yuborildi!', 'Izohingiz qabul qilindi.');
+    } catch {
+        showToast('error', 'Xatolik', "Keyinroq urinib ko'ring.");
+    } finally {
+        isSending = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        btn.style.pointerEvents = '';
+    }
+}
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
+function showToast(type = 'success', title = '', message = '', dur = 3500) {
+    document.querySelectorAll('.toast').forEach(t => t.remove());
+    const icons = { success: 'fa-check-circle', error: 'fa-times-circle' };
+    const el = document.createElement('div');
+    el.className = `toast toast--${type}`;
+    el.innerHTML = `
+        <i class="fas ${icons[type] || 'fa-info-circle'} toast__icon"></i>
+        <div class="toast__body">
+            ${title   ? `<b class="toast__title">${title}</b>` : ''}
+            ${message ? `<span class="toast__msg">${message}</span>` : ''}
+        </div>`;
+    document.body.appendChild(el);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+    if (dur > 0) setTimeout(() => {
+        el.classList.remove('show');
+        setTimeout(() => el.remove(), 400);
+    }, dur);
+}
+
+/* ── Utility ── */
+function escHtml(str) {
+    return String(str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
