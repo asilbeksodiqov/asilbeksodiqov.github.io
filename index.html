@@ -31,8 +31,9 @@
 <div id="app">
 
     <button id="global-back-btn" class="back-btn" onclick="showPage('home')" style="display: none;">
-        <i class="fas fa-arrow-left"></i> 
-        <span id="back-btn-label">Orqaga</span> </button>
+        <i class="fas fa-arrow-left"></i>
+        <span id="back-btn-label">Orqaga</span>
+    </button>
 
     <!-- HOME -->
     <section class="page active" id="home">
@@ -51,30 +52,57 @@
 
         <div class="home-body">
 
-            <div class="stats-row reveal">
-                <div class="stat-card">
-                    <span class="stat-num">5+</span>
-                    <span class="stat-label">Loyiha</span>
+            <!-- Mehmonlar xabarlari (Ticker) -->
+            <div class="guestbook-ticker reveal">
+                <div class="ticker-header">
+                    <span class="ticker-label"><i class="fas fa-quote-left"></i> Mehmonlar</span>
+                    <button class="ticker-add-btn" onclick="openGuestbookModal()">
+                        <i class="fas fa-plus"></i> Fikr qoldirish
+                    </button>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-num">1+</span>
-                    <span class="stat-label">Yil tajriba</span>
+                <div class="ticker-body" id="tickerBody">
+                    <div class="ticker-slide active">
+                        <p class="ticker-text">"Sayt juda chiroyli va qulay. Data analyst sifatida kelajakda katta yutuqlarga erishishingizni tilayman!"</p>
+                        <span class="ticker-author">— Jasur T.</span>
+                    </div>
+                    <div class="ticker-slide">
+                        <p class="ticker-text">"Portfolio dizayni professional darajada. Loyihalaringiz bilan tanishib chiqish juda qiziqarli bo'ldi."</p>
+                        <span class="ticker-author">— Malika R.</span>
+                    </div>
+                    <div class="ticker-slide">
+                        <p class="ticker-text">"Yuridik va texnik bilimlarni birlashtirib ishlash — bu katta afzallik. Omad!"</p>
+                        <span class="ticker-author">— Sardor A.</span>
+                    </div>
+                    <div class="ticker-slide">
+                        <p class="ticker-text">"FinTrack ilovasidan foydalandim, juda qulay va sodda. Rahmat!"</p>
+                        <span class="ticker-author">— Nilufar K.</span>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-num">3</span>
-                    <span class="stat-label">Soha</span>
-                </div>
+                <div class="ticker-dots" id="tickerDots"></div>
             </div>
 
-            <div class="survey-card reveal">
-                <div class="survey-card__label"><i class="fas fa-flask"></i> Ilmiy tadqiqot</div>
-                <h3 class="survey-card__title">Davlat xizmatlarini yaxshilash</h3>
-                <p class="survey-card__desc">Tadqiqotda qatnashing — 3 daqiqa vaqtingiz yetarli.</p>
-                <button class="btn-survey" onclick="window.open('https://sodiqov.uz/survey','_blank')">
-                    So'rovnomani boshlash <i class="fas fa-arrow-right"></i>
+            <!-- Saytni baholash -->
+            <div class="rating-card reveal">
+                <div class="rating-card__label"><i class="fas fa-star"></i> Saytni baholang</div>
+                <h3 class="rating-card__title">Sayt sizga yoqdimi?</h3>
+                <p class="rating-card__desc">Fikringizni qoldiring — bu saytni yaxshilashga yordam beradi.</p>
+                <div class="rating-stars" id="ratingStars">
+                    <button class="star-btn" data-value="1" aria-label="1 yulduz"><i class="fas fa-star"></i></button>
+                    <button class="star-btn" data-value="2" aria-label="2 yulduz"><i class="fas fa-star"></i></button>
+                    <button class="star-btn" data-value="3" aria-label="3 yulduz"><i class="fas fa-star"></i></button>
+                    <button class="star-btn" data-value="4" aria-label="4 yulduz"><i class="fas fa-star"></i></button>
+                    <button class="star-btn" data-value="5" aria-label="5 yulduz"><i class="fas fa-star"></i></button>
+                </div>
+                <div class="rating-label-text" id="ratingLabelText">Yulduzni tanlang</div>
+                <button class="btn-rating-submit" id="ratingSubmitBtn" disabled onclick="submitRating()">
+                    Baholash <i class="fas fa-paper-plane"></i>
                 </button>
+                <div class="rating-success" id="ratingSuccess" style="display:none;">
+                    <i class="fas fa-check-circle"></i> Rahmat! Bahongiz qabul qilindi.
+                </div>
             </div>
 
+            <!-- Loyihalar va Bog'lanish -->
             <div class="cta-row reveal">
                 <button class="btn-cta btn-cta--primary" onclick="showPage('projects')">
                     <i class="fas fa-folder-open"></i> Loyihalar
@@ -141,7 +169,7 @@
                 </div>
                 <div class="skill-row">
                     <span class="skill-name">Texnik bilim</span>
-                    <div class="skill-track"><div class="skill-fill" data-w="80"></div></div>
+                    <div class="skill-track"><div class="skill-fill" data-w="70"></div></div>
                     <span class="skill-pct">70%</span>
                 </div>
                 <div class="skill-row">
@@ -180,8 +208,8 @@
                     <div class="project-icon"><i class="fas fa-poll"></i></div>
                     <span class="badge badge--active">Faol</span>
                 </div>
-                <h3 class="project-card__title">Davlat xizmatlari tadqiqoti</h3>
-                <p class="project-card__desc">Davlat xizmatlarini yaxshilash maqsadida o'tkazilayotgan ilmiy so'rovnoma loyihasi. Natijalar magistratura dissertatsiyasi uchun ishlatiladi.</p>
+                <h3 class="project-card__title">Ilmiy tadqiqot ishi</h3>
+                <p class="project-card__desc">Davlat xizmatlarini ko'rsatishning innovatsion mexanizmlari yuzasidan o'tkazilayotgan ilmiy so'rovnoma loyihasi. Natijalar magistratura dissertatsiyasi uchun ishlatiladi.</p>
                 <div class="tag-row">
                     <span class="tag">Tadqiqot</span>
                     <span class="tag">Huquq</span>
@@ -198,7 +226,7 @@
                     <span class="badge badge--active">Faol</span>
                 </div>
                 <h3 class="project-card__title">Moliyaviy Dashboard</h3>
-                <p class="project-card__desc">"Ehtirom Plus" mikromoliya tashkiloti uchun mijozlar va tranzaksiyalar bo'yicha tahliliy dashboard.</p>
+                <p class="project-card__desc">"Ehtirom Plus" mikromoliya tashkiloti uchun savdo va NPL (muammoli kreditlar) bo'yicha tahliliy dashboard.</p>
                 <div class="tag-row">
                     <span class="tag">Power BI</span>
                     <span class="tag">Excel</span>
@@ -348,7 +376,34 @@
         </button>
     </nav>
 
-</div>
+    <!-- GUESTBOOK MODAL — #app ichida, lekin barcha .page lardan TASHQARIDA -->
+    <div class="gb-modal-overlay" id="gbModalOverlay">
+        <div class="gb-modal">
+            <div class="gb-modal__header">
+                <span class="gb-modal__title"><i class="fas fa-book-open"></i> Fikr qoldirish</span>
+                <button class="gb-modal__close" onclick="closeGuestbookModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="gb-modal__body">
+                <div class="gb-field">
+                    <input type="text" id="gbName" placeholder="Ismingiz" maxlength="40" autocomplete="name">
+                </div>
+                <div class="gb-field">
+                    <textarea id="gbMessage" placeholder="Xabaringiz..." rows="4" maxlength="300"></textarea>
+                </div>
+                <div class="gb-char-count"><span id="gbCharCount">0</span>/300</div>
+            </div>
+            <div class="gb-modal__footer">
+                <button class="btn-gb-cancel" onclick="closeGuestbookModal()">Bekor qilish</button>
+                <button class="btn-gb-submit" onclick="submitGuestbook()">
+                    <i class="fas fa-paper-plane"></i> Yuborish
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /#app -->
 
 <script src="script.js"></script>
 </body>
