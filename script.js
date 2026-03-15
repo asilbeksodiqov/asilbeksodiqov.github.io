@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initContactTypeSelector();
     initPhoneFormatting();
     initForm();
+    initRating();
+    initTicker();
     fixNav();
     window.addEventListener('resize', fixNav);
 });
@@ -253,3 +255,190 @@ function showToast(type='info', title='', message='', dur=4000) {
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
     if (dur > 0) setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 380); }, dur);
 }
+
+// ── RATING ────────────────────────────────
+function initRating() {
+    const stars = document.querySelectorAll('.star-btn');
+    const labelText = document.getElementById('ratingLabelText');
+    const submitBtn = document.getElementById('ratingSubmitBtn');
+    if (!stars.length) return;
+
+    const labels = ['', 'Yomon', 'Qoniqarli', 'Yaxshi', 'Juda yaxshi', 'Zo\'r!'];
+    let selected = 0;
+
+    stars.forEach(star => {
+        star.addEventListener('mouseenter', () => {
+            const v = +star.dataset.value;
+            stars.forEach(s => s.classList.toggle('hovered', +s.dataset.value <= v));
+            labelText.textContent = labels[v];
+        });
+        star.addEventListener('mouseleave', () => {
+            stars.forEach(s => s.classList.remove('hovered'));
+            labelText.textContent = selected ? labels[selected] : 'Yulduzni tanlang';
+        });
+        star.addEventListener('click', () => {
+            selected = +star.dataset.value;
+            stars.forEach(s => s.classList.toggle('selected', +s.dataset.value <= selected));
+            labelText.textContent = labels[selected];
+            submitBtn.disabled = false;
+        });
+    });
+}
+
+function submitRating() {
+    const selected = document.querySelectorAll('.star-btn.selected').length;
+    if (!selected) return;
+
+    const btn = document.getElementById('ratingSubmitBtn');
+    const success = document.getElementById('ratingSuccess');
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuborilmoqda…';
+
+    fetch(`https://api.telegram.org/bot8561049037:AAEbMoh0BTPRx5mUR99ui-uyg764vGO8spY/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: '7123672881',
+            text: `⭐ Sayt bahosi | sodiqov.uz\n${'⭐'.repeat(selected)}${'☆'.repeat(5 - selected)} (${selected}/5)`
+        })
+    })
+    .then(() => {
+        btn.style.display = 'none';
+        success.style.display = 'flex';
+        localStorage.setItem('site_rated', '1');
+    })
+    .catch(() => {
+        btn.disabled = false;
+        btn.innerHTML = 'Baholash <i class="fas fa-paper-plane"></i>';
+        showToast('error', 'Xatolik', "Keyinroq urinib ko'ring.");
+    });
+}
+
+// ── GUESTBOOK ─────────────────────────────
+function submitGuestbook() {
+    const name = document.getElementById('gbName').value.trim();
+    const msg  = document.getElementById('gbMessage').value.trim();
+
+    if (!name) return showToast('warning', 'Diqqat!', 'Ismingizni kiriting');
+    if (!msg)  return showToast('warning', 'Diqqat!', 'Xabar yozing');
+
+    const btn = document.querySelector('.btn-gb-submit');
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuborilmoqda…';
+
+    fetch(`https://api.telegram.org/bot8561049037:AAEbMoh0BTPRx5mUR99ui-uyg764vGO8spY/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: '7123672881',
+            text: `📖 Mehmonlar kitobasi | sodiqov.uz\n👤 Ism: ${name}\n💬 Xabar: ${msg}`
+        })
+    })
+    .then(r => { if (!r.ok) throw new Error(); })
+    .then(() => {
+        showToast('success', 'Muvaffaqiyatli!', 'Xabaringiz tasdiqlash uchun yuborildi.');
+        document.getElementById('gbName').value = '';
+        document.getElementById('gbMessage').value = '';
+    })
+    .catch(() => showToast('error', 'Xatolik', "Keyinroq urinib ko'ring."))
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = orig;
+    });
+}
+
+// ── GUESTBOOK TICKER ──────────────────────
+let tickerTimer = null;
+let tickerIndex = 0;
+
+function initTicker() {
+    const slides = document.querySelectorAll('.ticker-slide');
+    const dotsEl = document.getElementById('tickerDots');
+    if (!slides.length || !dotsEl) return;
+
+    // Dots yaratish
+    dotsEl.innerHTML = '';
+    slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'ticker-dot' + (i === 0 ? ' active' : '');
+        d.onclick = () => goToSlide(i);
+        dotsEl.appendChild(d);
+    });
+
+    tickerIndex = 0;
+    startTicker();
+}
+
+function startTicker() {
+    if (tickerTimer) clearInterval(tickerTimer);
+    tickerTimer = setInterval(() => {
+        const slides = document.querySelectorAll('.ticker-slide');
+        goToSlide((tickerIndex + 1) % slides.length);
+    }, 3500);
+}
+
+function goToSlide(i) {
+    const slides = document.querySelectorAll('.ticker-slide');
+    const dots   = document.querySelectorAll('.ticker-dot');
+    slides[tickerIndex]?.classList.remove('active');
+    dots[tickerIndex]?.classList.remove('active');
+    tickerIndex = i;
+    slides[tickerIndex]?.classList.add('active');
+    dots[tickerIndex]?.classList.add('active');
+}
+
+// ── GUESTBOOK MODAL ───────────────────────
+function openGuestbookModal() {
+    document.getElementById('gbModalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('gbName')?.focus(), 300);
+}
+
+function closeGuestbookModal(e) {
+    if (e && e.target !== document.getElementById('gbModalOverlay')) return;
+    document.getElementById('gbModalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function submitGuestbook() {
+    const name = document.getElementById('gbName').value.trim();
+    const msg  = document.getElementById('gbMessage').value.trim();
+
+    if (!name) return showToast('warning', 'Diqqat!', 'Ismingizni kiriting');
+    if (!msg)  return showToast('warning', 'Diqqat!', 'Xabar yozing');
+
+    const btn = document.querySelector('.btn-gb-submit');
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuborilmoqda…';
+
+    fetch(`https://api.telegram.org/bot8561049037:AAEbMoh0BTPRx5mUR99ui-uyg764vGO8spY/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: '7123672881',
+            text: `📖 Mehmonlar kitobasi | sodiqov.uz\n👤 Ism: ${name}\n💬 Xabar: ${msg}`
+        })
+    })
+    .then(r => { if (!r.ok) throw new Error(); })
+    .then(() => {
+        showToast('success', 'Muvaffaqiyatli!', 'Xabaringiz tasdiqlash uchun yuborildi.');
+        document.getElementById('gbName').value = '';
+        document.getElementById('gbMessage').value = '';
+        document.getElementById('gbCharCount').textContent = '0';
+        closeGuestbookModal();
+    })
+    .catch(() => showToast('error', 'Xatolik', "Keyinroq urinib ko'ring."))
+    .finally(() => { btn.disabled = false; btn.innerHTML = orig; });
+}
+
+// Belgilar soni
+document.addEventListener('DOMContentLoaded', () => {
+    const ta = document.getElementById('gbMessage');
+    const cc = document.getElementById('gbCharCount');
+    if (ta && cc) {
+        ta.addEventListener('input', () => cc.textContent = ta.value.length);
+    }
+});
