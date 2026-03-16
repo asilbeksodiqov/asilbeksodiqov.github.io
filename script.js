@@ -442,3 +442,67 @@ document.addEventListener('DOMContentLoaded', () => {
         ta.addEventListener('input', () => cc.textContent = ta.value.length);
     }
 });
+
+// ── PROJECT TABS ──────────────────────────
+function switchProjTab(tabId, btn) {
+    document.querySelectorAll('.proj-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.proj-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('tab-' + tabId);
+    panel.classList.add('active');
+    // Reveal animatsiyasini qayta ishga tushirish
+    panel.querySelectorAll('.reveal').forEach(el => {
+        el.classList.remove('visible');
+        setTimeout(() => revObs?.observe(el), 50);
+    });
+}
+
+// ── ARTICLE OPEN ──────────────────────────
+function openArticle(id) {
+    window.location.href = 'article.html?id=' + id;
+}
+
+// ── CONTACT EXPAND ────────────────────────
+function toggleContactForm() {
+    const form  = document.getElementById('contactFormWrap');
+    const map   = document.getElementById('contactMapWrap');
+    const arrow = document.getElementById('formArrow');
+    const isOpen = form.classList.contains('open');
+
+    // Xaritani yop
+    map.classList.remove('open');
+    map.style.maxHeight = '0';
+    document.getElementById('mapArrow').style.transform = 'rotate(0deg)';
+
+    if (isOpen) {
+        form.classList.remove('open');
+        form.style.maxHeight = '0';
+        arrow.style.transform = 'rotate(0deg)';
+    } else {
+        form.classList.add('open');
+        form.style.maxHeight = form.scrollHeight + 500 + 'px';
+        arrow.style.transform = 'rotate(180deg)';
+    }
+}
+
+function toggleMap() {
+    const map   = document.getElementById('contactMapWrap');
+    const form  = document.getElementById('contactFormWrap');
+    const arrow = document.getElementById('mapArrow');
+    const isOpen = map.classList.contains('open');
+
+    // Formani yop
+    form.classList.remove('open');
+    form.style.maxHeight = '0';
+    document.getElementById('formArrow').style.transform = 'rotate(0deg)';
+
+    if (isOpen) {
+        map.classList.remove('open');
+        map.style.maxHeight = '0';
+        arrow.style.transform = 'rotate(0deg)';
+    } else {
+        map.classList.add('open');
+        map.style.maxHeight = map.scrollHeight + 'px';
+        arrow.style.transform = 'rotate(180deg)';
+    }
+}
