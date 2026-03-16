@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="uz" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maqola | Asilbek Sodiqov</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --charcoal:   #2D3436;
+            --charcoal-2: #3d4a4c;
+            --gold:       #C9A84C;
+            --gold-light: #dbbe70;
+            --gold-dim:   rgba(201,168,76,.13);
+            --mist:       #DFE6E9;
+            --mist-2:     #edf1f3;
+            --white:      #FFFFFF;
+            --text:       #2D3436;
+            --text-2:     #5a6a6d;
+            --text-3:     #9aabad;
+            --border:     #d8e2e5;
+            --border-2:   #eaf0f2;
+            --bg:         #f4f8f9;
+            --page-bg:    #FAFAF8;
+            --success:    #27ae60;
+
+            --r:     14px;
+            --r-lg:  20px;
+            --r-full:9999px;
+            --sh-xs: 0 1px 4px rgba(45,52,54,.07);
+            --sh-sm: 0 4px 14px rgba(45,52,54,.09);
+            --sh:    0 8px 28px rgba(45,52,54,.11);
+            --sh-md: 0 16px 44px rgba(45,52,54,.14);
+            --sh-gold: 0 6px 22px rgba(201,168,76,.28);
+            --ease:  cubic-bezier(.25,.46,.45,.94);
+            --spring:cubic-bezier(.34,1.56,.64,1);
+            --t:     300ms;
+            --tf:    160ms;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ── PROGRESS BAR ── */
+        #progress-bar-wrap {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: rgba(45,52,54,.08);
+            z-index: 1000;
+            border-radius: var(--r-full);
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--charcoal) 0%, var(--gold) 100%);
+            transition: width 100ms linear;
+            border-radius: var(--r-full);
+        }
+
+        /* ── TOP BAR ── */
+        .top-bar {
+            position: fixed;
+            top: 3px; left: 0; right: 0;
+            height: 52px;
+            background: rgba(255, 255, 255, 0.5); /* Shaffoflikni biroz kamaytirdik */
+            backdrop-filter: blur(25px) saturate(180%); /* Blurni kuchaytirdik, orqa fondagi matnlar o'qilmaydi */
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid var(--border-2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+        }
+
+        .top-bar__left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            background: rgba(255, 255, 255, 0.5); /* Shaffoflikni biroz kamaytirdik */
+            backdrop-filter: blur(25px) saturate(180%); /* Blurni kuchaytirdik, orqa fondagi matnlar o'qilmaydi */
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--border);
+            border-radius: var(--r-full);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all var(--tf) var(--ease);
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: var(--charcoal);
+            color: var(--white);
+            border-color: var(--charcoal);
+        }
+
+        .back-btn i { font-size: 11px; }
+
+        .progress-pct {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-3);
+            letter-spacing: .04em;
+        }
+
+        .progress-pct span {
+            color: var(--gold);
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .article-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 80px 20px 60px;
+        }
+
+        /* ── WORD-STYLE PAGE ── */
+        .word-page {
+            background: var(--white);
+            border-radius: var(--r-lg);
+            box-shadow: var(--sh-md), 0 0 0 1px var(--border-2);
+            padding: 56px 64px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .word-page::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            opacity: 0.4;
+        }
+
+        @media (max-width: 600px) {
+            .word-page { padding: 32px 24px; }
+        }
+
+        /* Article meta */
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: var(--r-full);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .meta-badge--year {
+            background: var(--mist-2);
+            color: var(--text-2);
+            border: 1px solid var(--border);
+        }
+
+        .meta-badge--type {
+            background: var(--gold-dim);
+            color: var(--gold);
+            border: 1px solid rgba(201,168,76,.2);
+        }
+
+        /* Article title */
+        .article-title {
+            font-family: 'Lora', serif;
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1.35;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .article-title { font-size: 22px; }
+        }
+
+        .article-author {
+            font-size: 13px;
+            color: var(--text-3);
+            font-weight: 600;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .article-author i { color: var(--gold); font-size: 11px; }
+
+        .article-divider {
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold), var(--border-2));
+            margin-bottom: 32px;
+            opacity: 0.5;
+        }
+
+        /* Article body typography */
+        .article-body-text {
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            line-height: 1.9;
+            color: #3a4a4c;
+        }
+
+        .article-body-text h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin: 36px 0 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-2);
+        }
+
+        .article-body-text h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin: 28px 0 10px;
+        }
+
+        .article-body-text p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .article-body-text p:first-child::first-letter {
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1;
+            float: left;
+            margin: 4px 10px 0 0;
+            color: var(--gold);
+            font-family: 'Lora', serif;
+        }
+
+        .article-body-text blockquote {
+            border-left: 3px solid var(--gold);
+            padding: 12px 20px;
+            margin: 24px 0;
+            background: var(--mist-2);
+            border-radius: 0 var(--r) var(--r) 0;
+            font-style: italic;
+            color: var(--text-2);
+        }
+
+        .article-body-text ul, 
+        .article-body-text ol {
+            padding-left: 24px;
+            margin-bottom: 18px;
+        }
+
+        .article-body-text li {
+            margin-bottom: 8px;
+        }
+
+        .article-body-text strong {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        /* Page number */
+        .page-number {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-2);
+            font-size: 12px;
+            color: var(--text-3);
+            font-weight: 600;
+            letter-spacing: .06em;
+        }
+
+        /* ── FINISH SECTION ── */
+        .finish-section {
+            background: var(--charcoal);
+            border-radius: var(--r-lg);
+            padding: 36px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .finish-section::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,.18) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .finish-icon {
+            width: 56px; height: 56px;
+            background: rgba(201,168,76,.15);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 22px;
+            color: var(--gold);
+        }
+
+        .finish-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .finish-desc {
+            font-size: 13px;
+            color: rgba(255,255,255,.5);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .btn-finish {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            background: var(--gold);
+            color: var(--charcoal);
+            border-radius: var(--r-full);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all var(--tf) var(--ease);
+            font-family: inherit;
+        }
+
+        .btn-finish:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: var(--sh-gold);
+        }
+
+        /* ── RATING MODAL ── */
+        .rating-modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(45,52,54,.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--t) var(--ease);
+        }
+
+        .rating-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .rating-modal {
+            background: var(--white);
+            border-radius: var(--r-lg);
+            padding: 36px 32px;
+            max-width: 360px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.92) translateY(12px);
+            transition: transform 400ms var(--spring);
+            box-shadow: var(--sh-md);
+        }
+
+        .rating-modal-overlay.active .rating-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .rating-modal__icon {
+            width: 52px; height: 52px;
+            background: var(--gold-dim);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 20px;
+            color: var(--gold);
+        }
+
+        .rating-modal__title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 6px;
+        }
+
+        .rating-modal__desc {
+            font-size: 13px;
+            color: var(--text-2);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal-stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .modal-star-btn {
+            font-size: 32px;
+            color: var(--mist);
+            transition: color var(--tf) var(--ease), transform var(--tf) var(--ease);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 2px;
+            line-height: 1;
+        }
+
+        .modal-star-btn.hovered,
+        .modal-star-btn.selected {
+            color: var(--gold);
+        }
+
+        .modal-star-btn:hover { transform: scale(1.2); }
+
+        .modal-rating-label {
+            font-size: 13px;
+            color: var(--text-3);
+            font-weight: 600;
+            min-height: 20px;
+            margin-bottom: 20px;
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-modal-skip {
+            flex: 1;
+            padding: 12px;
+            background: var(--mist-2);
+            color: var(--text-2);
+            border-radius: var(--r);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: all var(--tf) var(--ease);
+        }
+
+        .btn-modal-skip:hover {
+            background: var(--border);
+            color: var(--charcoal);
+        }
+
+        .btn-modal-rate {
+            flex: 2;
+            padding: 12px;
+            background: var(--charcoal);
+            color: var(--white);
+            border-radius: var(--r);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            transition: all var(--tf) var(--ease);
+        }
+
+        .btn-modal-rate:hover:not(:disabled) {
+            background: var(--gold);
+            color: var(--charcoal);
+            box-shadow: var(--sh-gold);
+        }
+
+        .btn-modal-rate:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .modal-success {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--success);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px;
+            animation: fadeUp 400ms var(--ease) both;
+        }
+
+        /* ── TOAST ── */
+        .art-toast {
+            position: fixed;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 400px;
+            background: var(--charcoal);
+            color: var(--white);
+            border-radius: var(--r);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--sh-md);
+            z-index: 1500;
+            opacity: 0;
+            transition: bottom var(--t) var(--ease), opacity var(--t) var(--ease);
+            pointer-events: none;
+            border-left: 3px solid var(--gold);
+        }
+
+        .art-toast.show {
+            bottom: 24px;
+            opacity: 1;
+        }
+
+        .art-toast__icon {
+            font-size: 18px;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .art-toast__text {
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .art-toast__title {
+            display: block;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(8px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar-wrap">
+    <div id="progress-bar"></div>
+</div>
+
+<!-- Top bar -->
+<div class="top-bar">
+    <div class="top-bar__left">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> Orqaga
+        </button>
+    </div>
+    <div class="progress-pct">
+        O'qildi: <span id="pct-text">0%</span>
+    </div>
+</div>
+
+<!-- Article content -->
+<div class="article-wrap">
+
+    <!-- PAGE 1 -->
+    <div class="word-page" id="article-container">
+
+        <div class="article-meta">
+            <span class="meta-badge meta-badge--year" id="art-year"><i class="fas fa-calendar"></i> 2024</span>
+            <span class="meta-badge meta-badge--type"><i class="fas fa-file-alt"></i> Ilmiy maqola</span>
+        </div>
+
+        <h1 class="article-title" id="art-title">Maqola sarlavhasi</h1>
+
+        <div class="article-author">
+            <i class="fas fa-user-pen"></i>
+            Asilbek Sodiqov
+        </div>
+
+        <div class="article-divider"></div>
+
+        <div class="article-body-text" id="art-body">
+            <!-- Maqola matni JS orqali to'ldiriladi -->
+        </div>
+
+        <div class="page-number" id="page-number">— 1 —</div>
+    </div>
+
+    <!-- Tugatish bo'limi -->
+    <div class="finish-section">
+        <div class="finish-icon">
+            <i class="fas fa-flag-checkered"></i>
+        </div>
+        <h3 class="finish-title">Maqolani tugatdingiz!</h3>
+        <p class="finish-desc">Vaqtingiz uchun rahmat. Fikr-mulohazangizni qoldiring yoki loyihalarga qaytib ko'ring.</p>
+        <button class="btn-finish" onclick="finishArticle()">
+            <i class="fas fa-check"></i> Tugatish
+        </button>
+    </div>
+
+</div>
+
+<!-- Rating modal -->
+<div class="rating-modal-overlay" id="ratingModalOverlay">
+    <div class="rating-modal">
+        <div class="rating-modal__icon">
+            <i class="fas fa-star"></i>
+        </div>
+        <h3 class="rating-modal__title">Maqolani baholang</h3>
+        <p class="rating-modal__desc">Maqola sizga qanchalik foydali bo'ldi?</p>
+
+        <div class="modal-stars" id="modalStars">
+            <button class="modal-star-btn" data-value="1"><i class="fas fa-star"></i></button>
+            <button class="modal-star-btn" data-value="2"><i class="fas fa-star"></i></button>
+            <button class="modal-star-btn" data-value="3"><i class="fas fa-star"></i></button>
+            <button class="modal-star-btn" data-value="4"><i class="fas fa-star"></i></button>
+            <button class="modal-star-btn" data-value="5"><i class="fas fa-star"></i></button>
+        </div>
+
+        <div class="modal-rating-label" id="modalRatingLabel">Yulduzni tanlang</div>
+
+        <div class="modal-btns" id="modalBtns">
+            <button class="btn-modal-skip" onclick="skipRating()">O'tkazib yuborish</button>
+            <button class="btn-modal-rate" id="modalRateBtn" disabled onclick="submitModalRating()">
+                <i class="fas fa-paper-plane"></i> Baholash
+            </button>
+        </div>
+
+        <div class="modal-success" id="modalSuccess" style="display:none;">
+            <i class="fas fa-check-circle"></i> Rahmat! Bahongiz qabul qilindi.
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="art-toast" id="artToast">
+    <i class="fas fa-bolt art-toast__icon"></i>
+    <div class="art-toast__text">
+        <span class="art-toast__title" id="toastTitle"></span>
+        <span id="toastMsg"></span>
+    </div>
+</div>
+
+<script>
+// ── MAQOLALAR MA'LUMOTLARI ─────────────────
+const articles = {
+    'article-1': {
+        year: '2024',
+        title: 'Davlat xizmatlarini raqamlashtirish',
+        body: `
+            <p>O'zbekistonda davlat xizmatlarini raqamlashtirish jarayoni so'nggi yillarda jadal sur'atlar bilan rivojlanib kelmoqda. Ushbu maqolada mazkur jarayonning huquqiy asoslari, amalga oshirilgan islohotlar va kelajakdagi istiqbollar tahlil etiladi.</p>
+
+            <h2>1. Huquqiy asoslar</h2>
+            <p>O'zbekiston Respublikasida "Elektron hukumat to'g'risida"gi qonun qabul qilinishi bilan davlat xizmatlarini raqamlashtirish jarayoni yangi bosqichga ko'tarildi. Qonun davlat organlari va fuqarolar o'rtasidagi munosabatlarni tartibga soluvchi asosiy normativ hujjat sifatida xizmat qilmoqda.</p>
+            <p>Bundan tashqari, Prezident farmoyishlari va hukumat qarorlari asosida bir qator davlat xizmatlari to'liq raqamli formatga o'tkazildi. Bu fuqarolar uchun vaqt va resurslarni tejash imkonini berdi.</p>
+
+            <blockquote>Raqamlashtirish — bu nafaqat texnologiya, balki davlat va jamiyat o'rtasidagi munosabatlarni tubdan o'zgartiruvchi paradigma sifatida ko'rilishi lozim.</blockquote>
+
+            <h2>2. Amalga oshirilgan islohotlar</h2>
+            <p>my.gov.uz portali orqali 200 dan ortiq davlat xizmati online rejimda taqdim etilmoqda. Fuqarolar ko'chmas mulkni ro'yxatga olish, pasport olish, biznes ro'yxatdan o'tkazish kabi xizmatlardan uydan turib foydalanish imkoniyatiga ega bo'ldi.</p>
+            <p>Mahalliy davlat boshqaruv organlarida ham raqamlashtirish jarayoni faol olib borilmoqda. Viloyat va tuman hokimliklari qoshida elektron xizmat ko'rsatish markazlari tashkil etildi.</p>
+
+            <h3>2.1. Texnik infratuzilma</h3>
+            <p>Davlat xizmatlarini raqamlashtirishda texnik infratuzilmani rivojlantirish asosiy omillardan biri hisoblanadi. Bulutli hisoblash texnologiyalari, ma'lumotlar bazalari va kiberxavfsizlik tizimlari joriy etilishi bu jarayonni yanada samarali qilmoqda.</p>
+
+            <h2>3. Muammolar va yechimlar</h2>
+            <p>Raqamlashtirish jarayonida bir qator muammolar ham mavjud. Internet infratuzilmasining hamma hududlarda yetarli darajada rivojlanmaganligi, aholi tomonidan raqamli savodxonlik darajasining pastligi va ma'lumotlar xavfsizligi masalalari dolzarb muammolar sifatida qolmoqda.</p>
+            <p>Ushbu muammolarni hal etish uchun kompleks yondashuv talab etiladi: texnik infratuzilmani rivojlantirish, aholi raqamli savodxonligini oshirish va huquqiy bazani takomillashtirish.</p>
+
+            <h2>4. Xulosa</h2>
+            <p>O'zbekistonda davlat xizmatlarini raqamlashtirish jarayoni ijobiy tendensiyaga ega bo'lib, fuqarolar hayotini yengillashtirish va davlat boshqaruvini samarali qilishga xizmat qilmoqda. Huquqiy bazaning mustahkamlanishi, texnik infratuzilmaning rivojlanishi va aholi faolligining ortishi bu jarayonni yanada tezlashtiradi.
+            </p>
+        `
+    },
+    'article-2': {
+        year: '2025',
+        title: "Mikromoliyada ma'lumotlar tahlili",
+        body: `
+            <p>Mikromoliya sohasi so'nggi o'n yilliklarda rivojlanayotgan mamlakatlar iqtisodiyotida muhim rol o'ynamoqda. Ushbu maqolada mikromoliya tashkilotlarida data analytics qo'llashning samaradorligi va uning huquqiy jihatlari ko'rib chiqiladi.</p>
+
+            <h2>1. Mikromoliyada ma'lumotlar ahamiyati</h2>
+            <p>Mikromoliya tashkilotlari katta hajmdagi ma'lumotlar bilan ishlaydi: mijozlar profili, kredit tarixi, to'lov intizomi va boshqalar. Ushbu ma'lumotlarni to'g'ri tahlil qilish kreditlash jarayonini optimallashtirish va riskni kamaytirish imkonini beradi.</p>
+            <p>Zamonaviy data analytics vositalari — Python, SQL, Power BI — mikromoliya tashkilotlariga real vaqt rejimida qarorlar qabul qilishga yordam bermoqda. Bu NPL (muammoli kreditlar) ko'rsatkichini kamaytirish va mijozlar bazasini kengaytirishda muhim omil hisoblanadi.</p>
+
+            <blockquote>Ma'lumot — bu yangi neft. Uni to'g'ri qayta ishlash moliyaviy barqarorlikning asosiy garovidir.</blockquote>
+
+            <h2>2. Amaliy qo'llash tajribasi</h2>
+            <p>"Ehtirom Plus" mikromoliya tashkilotida joriy etilgan tahliliy dashboard misoli orqali data analytics ning amaliy samaradorligi ko'rsatiladi. Dashboard mijozlar segmentatsiyasi, kredit portfeli tahlili va NPL monitoring funksiyalarini o'z ichiga oladi.</p>
+
+            <h3>2.1. Kredit skoring modeli</h3>
+            <p>Kredit skoring modeli mijozning to'lov qobiliyatini bashorat qilishda muhim vosita hisoblanadi. Machine learning algoritmlari asosida qurilgan model an'anaviy usullarga nisbatan 30% yuqori aniqlikka ega ekanligi aniqlandi.</p>
+
+            <h2>3. Huquqiy jihatlar</h2>
+            <p>Ma'lumotlarni tahlil qilish jarayonida shaxsiy ma'lumotlarni himoya qilish qonunchiligiga rioya etish majburiy hisoblanadi. O'zbekiston Respublikasining "Shaxsiy ma'lumotlar to'g'risida"gi qonuni mikromoliya tashkilotlari faoliyatiga ham tatbiq etiladi.</p>
+            <p>GDPR va xalqaro standartlarga muvofiqlik, ma'lumotlarni saqlash muddatlari va foydalanuvchilar roziligi olish tartibi aniq belgilangan huquqiy normalar asosida amalga oshirilishi lozim.</p>
+
+            <h2>4. Xulosa</h2>
+            <p>Mikromoliya sohasida data analytics qo'llash nafaqat moliyaviy ko'rsatkichlarni yaxshilaydi, balki xizmat sifatini oshirish va mijozlar qoniqishini ta'minlashda ham muhim rol o'ynaydi. Huquqiy normalar doirasida olib boriladigan tahliliy faoliyat tashkilot barqarorligining asosi hisoblanadi.</p>
+        `
+    }
+};
+
+// ── MOTIVATSION TOASTLAR ──────────────────
+const motivationalMessages = [
+    { title: "Zo'r ketyapsiz! 🔥", msg: "Maqolaning yarmiga yetib keldingiz. Davom eting!" },
+    { title: "Ajoyib! 💪", msg: "Diqqatingiz uchun rahmat. Eng qiziq qism oldinda!" },
+    { title: "Harakatda ekanligingiz zo'r! ⚡", msg: "Bilim olish — eng yaxshi investitsiya." },
+    { title: "Yaxshi boryapsiz! 📚", msg: "Ushbu maqola oxirigacha o'qishga arziydi." },
+    { title: "Davom eting! 🎯", msg: "Har bir sahifa yangi bilim demak." },
+    { title: "Qoyilmaqom! 🌟", msg: "Ko'p o'qiganlar ko'p biladi. Siz to'g'ri yo'ldasiz!" },
+    { title: "Sabr-toqat meva beradi! 🍀", msg: "Maqolani tugatish yaqinlashmoqda." },
+];
+
+// ── INIT ──────────────────────────────────
+let articleId = '';
+let selectedRating = 0;
+let toastTimer = null;
+let shownToasts = [];
+
+window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    articleId = params.get('id') || 'article-1';
+
+    const data = articles[articleId];
+    if (!data) return;
+
+    document.title = data.title + ' | Asilbek Sodiqov';
+    document.getElementById('art-year').innerHTML = `<i class="fas fa-calendar"></i> ${data.year}`;
+    document.getElementById('art-title').textContent = data.title;
+    document.getElementById('art-body').innerHTML = data.body;
+
+    initProgressBar();
+    initRatingModal();
+});
+
+// ── PROGRESS BAR ─────────────────────────
+const toastTriggers = [25, 50, 75]; // foizda qachon toast chiqarish
+
+function initProgressBar() {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+}
+
+function onScroll() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('pct-text').textContent = pct + '%';
+
+    // Toast triggerlarini tekshirish
+    toastTriggers.forEach(trigger => {
+        if (pct >= trigger && !shownToasts.includes(trigger)) {
+            shownToasts.push(trigger);
+            showMotivationalToast();
+        }
+    });
+}
+
+function showMotivationalToast() {
+    const available = motivationalMessages.filter((_, i) => !shownToasts.includes(i));
+    const pool = available.length > 0 ? available : motivationalMessages;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+
+    const toast = document.getElementById('artToast');
+    document.getElementById('toastTitle').textContent = pick.title;
+    document.getElementById('toastMsg').textContent = pick.msg;
+
+    if (toastTimer) clearTimeout(toastTimer);
+    toast.classList.remove('show');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        toast.classList.add('show');
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+    }));
+}
+
+// ── FINISH ────────────────────────────────
+function finishArticle() {
+    openRatingModal();
+}
+
+function goBack() {
+    if (document.referrer && document.referrer.includes(location.hostname)) {
+        history.back();
+    } else {
+        window.location.href = 'index.html#projects';
+    }
+}
+
+// ── RATING MODAL ──────────────────────────
+function initRatingModal() {
+    const stars = document.querySelectorAll('.modal-star-btn');
+    const labels = ['', 'Yomon', 'Qoniqarli', 'Yaxshi', 'Juda yaxshi', "Zo'r!"];
+
+    stars.forEach(star => {
+        star.addEventListener('mouseenter', () => {
+            const v = +star.dataset.value;
+            stars.forEach(s => s.classList.toggle('hovered', +s.dataset.value <= v));
+            document.getElementById('modalRatingLabel').textContent = labels[v];
+        });
+        star.addEventListener('mouseleave', () => {
+            stars.forEach(s => s.classList.remove('hovered'));
+            document.getElementById('modalRatingLabel').textContent =
+                selectedRating ? labels[selectedRating] : 'Yulduzni tanlang';
+        });
+        star.addEventListener('click', () => {
+            selectedRating = +star.dataset.value;
+            stars.forEach(s => s.classList.toggle('selected', +s.dataset.value <= selectedRating));
+            document.getElementById('modalRatingLabel').textContent = labels[selectedRating];
+            document.getElementById('modalRateBtn').disabled = false;
+        });
+    });
+}
+
+function openRatingModal() {
+    document.getElementById('ratingModalOverlay').classList.add('active');
+}
+
+function skipRating() {
+    document.getElementById('ratingModalOverlay').classList.remove('active');
+    setTimeout(() => goBack(), 300);
+}
+
+function submitModalRating() {
+    if (!selectedRating) return;
+
+    const btn = document.getElementById('modalRateBtn');
+    const articleTitle = articles[articleId]?.title || articleId;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+    fetch(`https://api.telegram.org/bot8561049037:AAEbMoh0BTPRx5mUR99ui-uyg764vGO8spY/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: '7123672881',
+            text: `📄 Maqola bahosi | sodiqov.uz\n📝 Maqola: ${articleTitle}\n${'⭐'.repeat(selectedRating)}${'☆'.repeat(5 - selectedRating)} (${selectedRating}/5)`
+        })
+    })
+    .then(() => {
+        document.getElementById('modalBtns').style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'flex';
+        setTimeout(() => {
+            document.getElementById('ratingModalOverlay').classList.remove('active');
+            setTimeout(() => goBack(), 300);
+        }, 2000);
+    })
+    .catch(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Baholash';
+    });
+}
+</script>
+</body>
+</html>
