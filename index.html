@@ -191,92 +191,150 @@
     <section class="page" id="projects">
         <div class="page-body">
 
-            <p class="section-label">Loyihalarim</p>
-
-            <div class="project-card reveal">
-                <div class="project-card__top">
-                    <div class="project-icon"><i class="fas fa-poll"></i></div>
-                    <span class="badge badge--active">Faol</span>
-                </div>
-                <h3 class="project-card__title">Ilmiy tadqiqot ishi</h3>
-                <p class="project-card__desc">Davlat xizmatlarini ko'rsatishning innovatsion mexanizmlari yuzasidan o'tkazilayotgan ilmiy so'rovnoma loyihasi. Natijalar magistratura dissertatsiyasi uchun ishlatiladi.</p>
-                <div class="tag-row">
-                    <span class="tag">Tadqiqot</span>
-                    <span class="tag">Huquq</span>
-                    <span class="tag">Tahlil</span>
-                </div>
-                <button class="btn-project" onclick="window.open('https://sodiqov.uz/survey','_blank')">
-                    Ko'rish <i class="fas fa-external-link-alt"></i>
+            <!-- Tab tugmalari -->
+            <div class="proj-tabs">
+                <button class="proj-tab active" data-tab="programming" onclick="switchProjTab('programming', this)">
+                    <i class="fas fa-code"></i> Programming
+                </button>
+                <button class="proj-tab" data-tab="data" onclick="switchProjTab('data', this)">
+                    <i class="fas fa-chart-bar"></i> Data
+                </button>
+                <button class="proj-tab" data-tab="articles" onclick="switchProjTab('articles', this)">
+                    <i class="fas fa-file-alt"></i> Maqolalar
                 </button>
             </div>
 
-            <div class="project-card reveal">
-                <div class="project-card__top">
-                    <div class="project-icon"><i class="fas fa-chart-pie"></i></div>
-                    <span class="badge badge--active">Faol</span>
+            <!-- PROGRAMMING -->
+            <div class="proj-panel active" id="tab-programming">
+
+                <div class="project-card reveal">
+                    <div class="project-card__top">
+                        <div class="project-icon"><i class="fas fa-globe"></i></div>
+                        <span class="badge badge--done">Tugallangan</span>
+                    </div>
+                    <h3 class="project-card__title">sodiqov.uz — Portfolio</h3>
+                    <p class="project-card__desc">Ushbu shaxsiy portfolio sayti. Vanilla HTML/CSS/JS bilan yozilgan, mobil-first dizayn.</p>
+                    <div class="tag-row">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                    <button class="btn-project" onclick="window.open('https://sodiqov.uz','_blank')">
+                        Ko'rish <i class="fas fa-external-link-alt"></i>
+                    </button>
                 </div>
-                <h3 class="project-card__title">Moliyaviy Dashboard</h3>
-                <p class="project-card__desc">"Ehtirom Plus" mikromoliya tashkiloti uchun savdo va NPL (muammoli kreditlar) bo'yicha tahliliy dashboard.</p>
-                <div class="tag-row">
-                    <span class="tag">Power BI</span>
-                    <span class="tag">Excel</span>
-                    <span class="tag">SQL</span>
+
+                <div class="project-card reveal">
+                    <div class="project-card__top">
+                        <div class="project-icon"><i class="fas fa-file-pdf"></i></div>
+                        <span class="badge badge--done">Tugallangan</span>
+                    </div>
+                    <h3 class="project-card__title">2PDF — Converter</h3>
+                    <p class="project-card__desc">Bir nechta rasmlarni bir vaqtning o'zida PDF faylga o'girishingiz mumkin, bepul va reklamasiz.</p>
+                    <div class="tag-row">
+                        <span class="tag">PDF</span>
+                        <span class="tag">JPG</span>
+                        <span class="tag">Secure</span>
+                    </div>
+                    <button class="btn-project" onclick="window.open('https://sodiqov.uz/2pdf','_blank')">
+                        Ko'rish <i class="fas fa-external-link-alt"></i>
+                    </button>
                 </div>
-                <button class="btn-project btn-project--ghost" disabled>
-                    Maxfiy <i class="fas fa-lock"></i>
-                </button>
+
+                <div class="project-card reveal">
+                    <div class="project-card__top">
+                        <div class="project-icon"><i class="fas fa-money-bill-trend-up"></i></div>
+                        <span class="badge badge--done">Tugallangan</span>
+                    </div>
+                    <h3 class="project-card__title">FinTrack — Moliyaviy kuzatuvchi</h3>
+                    <p class="project-card__desc">Kirim va chiqimlaringizni bir joydan turib nazorat qiling, byudjet o'rnating.</p>
+                    <div class="tag-row">
+                        <span class="tag">Daromad</span>
+                        <span class="tag">Xarajat</span>
+                        <span class="tag">Budjet</span>
+                    </div>
+                    <button class="btn-project" onclick="window.open('https://sodiqov.uz/fintrack','_blank')">
+                        Ko'rish <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </div>
+
             </div>
 
-            <div class="project-card reveal">
-                <div class="project-card__top">
-                    <div class="project-icon"><i class="fas fa-globe"></i></div>
-                    <span class="badge badge--done">Tugallangan</span>
+            <!-- DATA ANALYSIS -->
+            <div class="proj-panel" id="tab-data">
+
+                <div class="project-card reveal">
+                    <div class="project-card__top">
+                        <div class="project-icon"><i class="fas fa-chart-pie"></i></div>
+                        <span class="badge badge--active">Faol</span>
+                    </div>
+                    <h3 class="project-card__title">Moliyaviy Dashboard</h3>
+                    <p class="project-card__desc">"Ehtirom Plus" mikromoliya tashkiloti uchun savdo va NPL bo'yicha tahliliy dashboard.</p>
+                    <div class="tag-row">
+                        <span class="tag">Power BI</span>
+                        <span class="tag">Excel</span>
+                        <span class="tag">SQL</span>
+                    </div>
+                    <button class="btn-project btn-project--ghost" disabled>
+                        Maxfiy <i class="fas fa-lock"></i>
+                    </button>
                 </div>
-                <h3 class="project-card__title">sodiqov.uz — Portfolio</h3>
-                <p class="project-card__desc">Ushbu shaxsiy portfolio sayti. Vanilla HTML/CSS/JS bilan yozilgan, mobil-first dizayn.</p>
-                <div class="tag-row">
-                    <span class="tag">HTML</span>
-                    <span class="tag">CSS</span>
-                    <span class="tag">JavaScript</span>
+
+                <div class="project-card reveal">
+                    <div class="project-card__top">
+                        <div class="project-icon"><i class="fas fa-poll"></i></div>
+                        <span class="badge badge--active">Faol</span>
+                    </div>
+                    <h3 class="project-card__title">Ilmiy tadqiqot tahlili</h3>
+                    <p class="project-card__desc">So'rovnoma natijalarini Python va Excel yordamida tahlil qilish, vizualizatsiya yaratish.</p>
+                    <div class="tag-row">
+                        <span class="tag">Python</span>
+                        <span class="tag">Excel</span>
+                        <span class="tag">Tahlil</span>
+                    </div>
+                    <button class="btn-project btn-project--ghost" disabled>
+                        Maxfiy <i class="fas fa-lock"></i>
+                    </button>
                 </div>
-                <button class="btn-project" onclick="window.open('https://sodiqov.uz','_blank')">
-                    Ko'rish <i class="fas fa-external-link-alt"></i>
-                </button>
+
             </div>
 
-            <div class="project-card reveal">
-                <div class="project-card__top">
-                    <div class="project-icon"><i class="fas fa-file-pdf"></i></div>
-                    <span class="badge badge--done">Tugallangan</span>
-                </div>
-                <h3 class="project-card__title">2PDF — Converter</h3>
-                <p class="project-card__desc">Bir nechta rasmlarni bir vaqtning o'zida faylga o'girishingiz mumkin, eng muhimi bepul va hech qanday reklamalarsiz.</p>
-                <div class="tag-row">
-                    <span class="tag">PDF</span>
-                    <span class="tag">JPG</span>
-                    <span class="tag">Secure</span>
-                </div>
-                <button class="btn-project" onclick="window.open('https://sodiqov.uz/2pdf','_blank')">
-                    Ko'rish <i class="fas fa-external-link-alt"></i>
-                </button>
-            </div>
+            <!-- MAQOLALAR -->
+            <div class="proj-panel" id="tab-articles">
 
-            <div class="project-card reveal">
-                <div class="project-card__top">
-                    <div class="project-icon"><i class="fas fa-money-bill-trend-up"></i></div>
-                    <span class="badge badge--done">Tugallangan</span>
+                <div class="project-card reveal">
+                    <div class="project-card__top">
+                        <div class="project-icon"><i class="fas fa-file-word"></i></div>
+                        <span class="badge badge--done">2024</span>
+                    </div>
+                    <h3 class="project-card__title">Davlat xizmatlarini raqamlashtirish</h3>
+                    <p class="project-card__desc">O'zbekistonda davlat xizmatlarini raqamlashtirish jarayonlarining huquqiy asoslari tahlili.</p>
+                    <div class="tag-row">
+                        <span class="tag">Huquq</span>
+                        <span class="tag">Raqamlashtirish</span>
+                    </div>
+                    <button class="btn-project" onclick="openArticle('article-1')">
+                        <i class="fas fa-book-open"></i> To'liq o'qish
+                    </button>
                 </div>
-                <h3 class="project-card__title">FinTrack — Moliyaviy kuzatuvchi</h3>
-                <p class="project-card__desc">Kirim va chiqimlaringizni bir joydan turib nazorat qiling, byudjet o'rnating va doimiy nazoratni o'rnating.</p>
-                <div class="tag-row">
-                    <span class="tag">Daromad</span>
-                    <span class="tag">Xarajat</span>
-                    <span class="tag">Budjet</span>
-                    <span class="tag">Xavfsiz</span>
+
+                <div class="project-card reveal">
+                    <div class="project-card__top">
+                        <div class="project-icon"><i class="fas fa-file-word"></i></div>
+                        <span class="badge badge--done">2025</span>
+                    </div>
+                    <h3 class="project-card__title">Mikromoliyada ma'lumotlar tahlili</h3>
+                    <p class="project-card__desc">Mikromoliya sohasida data analytics qo'llashning samaradorligi va huquqiy jihatlari.</p>
+                    <div class="tag-row">
+                        <span class="tag">Data</span>
+                        <span class="tag">Moliya</span>
+                        <span class="tag">Huquq</span>
+                    </div>
+                    <button class="btn-project" onclick="openArticle('article-2')">
+                        <i class="fas fa-book-open"></i> To'liq o'qish
+                    </button>
                 </div>
-                <button class="btn-project" onclick="window.open('https://sodiqov.uz/fintrack','_blank')">
-                    Ko'rish <i class="fas fa-external-link-alt"></i>
-                </button>
+
             </div>
 
         </div>
@@ -286,47 +344,96 @@
     <section class="page" id="contact">
         <div class="page-body">
 
-            <form class="contact-form" id="contactForm" novalidate>
+            <!-- 4 ta tezkor tugma -->
+            <div class="contact-quick-grid">
 
-                <div class="float-field">
-                    <input type="text" id="name" name="name" placeholder=" " autocomplete="name" required>
-                    <label for="name">Ismingiz</label>
-                </div>
-
-                <div class="type-selector">
-                    <button type="button" class="type-btn active" data-type="phone">
-                        <i class="fas fa-phone"></i><span>Telefon</span>
+                <a href="tel:+998947030806" class="contact-quick-btn">
+                    <div class="cq-icon"><i class="fas fa-phone"></i></div>
+                    <span class="cq-label">Telefon</span>
+                </a>
+            
+                <a href="mailto:info@sodiqov.uz" class="contact-quick-btn">
+                    <div class="cq-icon"><i class="fas fa-envelope"></i></div>
+                    <span class="cq-label">Email</span>
+                </a>
+            
+                <!-- Tezkor xabar + expand birgalikda -->
+                <div class="contact-expandable-group">
+                    <button class="contact-quick-btn" onclick="toggleContactForm()">
+                        <div class="cq-icon"><i class="fas fa-paper-plane"></i></div>
+                        <span class="cq-label">Tezkor xabar</span>
+                        <i class="fas fa-chevron-down cq-arrow" id="formArrow"></i>
                     </button>
-                    <button type="button" class="type-btn" data-type="telegram">
-                        <i class="fab fa-telegram"></i><span>Telegram</span>
+                    <div class="contact-expand" id="contactFormWrap">
+                        <form class="contact-form" id="contactForm" novalidate>
+            
+                            <div class="float-field">
+                                <input type="text" id="name" name="name" placeholder=" " autocomplete="name" required>
+                                <label for="name">Ismingiz</label>
+                            </div>
+            
+                            <div class="type-selector">
+                                <button type="button" class="type-btn active" data-type="phone">
+                                    <i class="fas fa-phone"></i><span>Telefon</span>
+                                </button>
+                                <button type="button" class="type-btn" data-type="telegram">
+                                    <i class="fab fa-telegram"></i><span>Telegram</span>
+                                </button>
+                                <button type="button" class="type-btn" data-type="email">
+                                    <i class="fas fa-envelope"></i><span>Email</span>
+                                </button>
+                            </div>
+            
+                            <div class="float-field float-field--prefix phone-mode" id="contactField">
+                                <div class="field-prefix" id="contactPrefix">+998</div>
+                                <input type="tel" id="contact_input" name="contact_input"
+                                       inputmode="numeric" maxlength="12" placeholder=" " required>
+                                <label for="contact_input" id="contactLabel">Telefon raqamingiz</label>
+                            </div>
+            
+                            <div class="float-field float-field--textarea">
+                                <textarea id="message" name="message" placeholder=" " rows="4" required></textarea>
+                                <label for="message">Xabaringiz</label>
+                            </div>
+            
+                            <button type="submit" class="btn-submit">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Xabarni Yuborish</span>
+                            </button>
+            
+                        </form>
+                    </div>
+                </div>
+            
+                <!-- Manzil + expand birgalikda -->
+                <div class="contact-expandable-group">
+                    <button class="contact-quick-btn" onclick="toggleMap()">
+                        <div class="cq-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <span class="cq-label">Manzil</span>
+                        <i class="fas fa-chevron-down cq-arrow" id="mapArrow"></i>
                     </button>
-                    <button type="button" class="type-btn" data-type="email">
-                        <i class="fas fa-envelope"></i><span>Email</span>
-                    </button>
+                    <div class="contact-expand" id="contactMapWrap">
+                        <div class="map-container">
+                            <iframe
+                                src="https://www.openstreetmap.org/export/embed.html?bbox=70.8900%2C40.4800%2C71.0100%2C40.5600&layer=mapnik&marker=40.5283%2C70.9422"
+                                class="map-iframe"
+                                title="Qo'qon shahri"
+                                loading="lazy"
+                                allowfullscreen>
+                            </iframe>
+                            <div class="map-label">
+                                <i class="fas fa-map-marker-alt"></i> Qo'qon, O'zbekiston
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            
+            </div>
 
-                <div class="float-field float-field--prefix phone-mode" id="contactField">
-                    <div class="field-prefix" id="contactPrefix">+998</div>
-                    <input type="tel" id="contact_input" name="contact_input"
-                           inputmode="numeric" maxlength="12" placeholder=" " required>
-                    <label for="contact_input" id="contactLabel">Telefon raqamingiz</label>
-                </div>
-
-                <div class="float-field float-field--textarea">
-                    <textarea id="message" name="message" placeholder=" " rows="4" required></textarea>
-                    <label for="message">Xabaringiz</label>
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-paper-plane"></i>
-                    <span>Xabarni Yuborish</span>
-                </button>
-
-            </form>
-
+            <!-- Ijtimoiy tarmoqlar -->
             <div class="social-row">
-                <a href="mailto:info@sodiqov.uz" class="social-btn" aria-label="Email">
-                    <i class="fas fa-envelope"></i>
+                <a href="https://www.linkedin.com/in/asilbek-sodiqov-4910b73a4?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-btn" aria-label="Linkedin">
+                    <i class="fa-brands fa-linkedin-in"></i>
                 </a>
                 <a href="https://t.me/asilbek_sodiqov" class="social-btn" aria-label="Telegram">
                     <i class="fab fa-telegram"></i>
