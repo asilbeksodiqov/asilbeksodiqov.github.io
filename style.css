@@ -676,6 +676,10 @@ a { text-decoration:none; color:inherit; }
     transform: translateY(-3px);
 }
 
+.project-card.article-open:hover {
+    transform: none;
+}
+
 .project-card__top {
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 14px;
@@ -752,6 +756,68 @@ a { text-decoration:none; color:inherit; }
     color: var(--text-3);
     cursor: not-allowed;
 }
+
+/* Maqolalar uchun expand */
+.btn-article-expand {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 14px;
+    padding: 10px 18px;
+    background: var(--charcoal);
+    color: var(--white);
+    border-radius: var(--r-full);
+    font-size: 13px; font-weight: 700;
+    transition: all var(--tf) var(--ease);
+    cursor: pointer;
+}
+
+.btn-article-expand:hover {
+    background: var(--gold);
+    color: var(--charcoal);
+    box-shadow: var(--sh-gold);
+}
+
+.btn-article-arrow {
+    font-size: 11px;
+    transition: transform var(--t) var(--ease);
+}
+
+/* ── PROJECT TABS ───────────────────────── */
+.proj-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--mist-2);
+    padding: 5px;
+    border-radius: var(--r);
+    border: 1px solid var(--border-2);
+    margin-bottom: 20px;
+}
+
+.proj-tab {
+    flex: 1;
+    padding: 9px 6px;
+    border-radius: var(--r-sm);
+    font-size: 12px; font-weight: 700;
+    color: var(--text-2);
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    transition: all var(--tf) var(--ease);
+    white-space: nowrap;
+}
+
+.proj-tab i { font-size: 12px; }
+
+.proj-tab.active {
+    background: var(--charcoal);
+    color: var(--gold);
+    box-shadow: var(--sh-xs);
+}
+
+.proj-tab:not(.active):hover {
+    background: rgba(45,52,54,.07);
+    color: var(--charcoal);
+}
+
+.proj-panel { display: none; }
+.proj-panel.active { display: block; }
 
 /* ── CONTACT FORM ───────────────────────── */
 .contact-form {
@@ -1455,3 +1521,127 @@ a { text-decoration:none; color:inherit; }
         transform: translateY(0) scale(1);
     }
 }
+
+/* ── CONTACT QUICK GRID ─────────────────── */
+.contact-quick-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.contact-expandable-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-quick-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    background: var(--white);
+    border: 1px solid var(--border-2);
+    border-radius: var(--r);
+    box-shadow: var(--sh-xs);
+    cursor: pointer;
+    transition: all var(--tf) var(--ease);
+    text-decoration: none;
+    color: var(--charcoal);
+    width: 100%;
+    text-align: left;
+}
+
+.contact-quick-btn:hover {
+    border-color: var(--border);
+    box-shadow: var(--sh-sm);
+    transform: translateY(-2px);
+}
+
+.contact-quick-btn:hover .cq-icon {
+    background: var(--gold);
+    color: var(--white);
+    box-shadow: var(--sh-gold);
+}
+
+/* Expand ochiq bo'lganda tugma pastki radiusi yo'qoladi */
+.contact-expandable-group:has(.contact-expand.open) .contact-quick-btn {
+    border-radius: var(--r) var(--r) 0 0;
+    border-bottom: none;
+    transform: none;
+    box-shadow: none;
+}
+
+.cq-icon {
+    width: 36px; height: 36px;
+    background: var(--charcoal);
+    color: var(--gold);
+    border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: all var(--tf) var(--ease);
+}
+
+.cq-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--charcoal);
+    flex: 1;
+}
+
+.cq-arrow {
+    font-size: 11px;
+    color: var(--text-3);
+    transition: transform var(--t) var(--ease);
+    flex-shrink: 0;
+}
+
+/* ── CONTACT EXPAND ─────────────────────── */
+.contact-expand {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 500ms var(--ease);
+    background: var(--white);
+    border: 1px solid var(--border-2);
+    border-top: none;
+    border-radius: 0 0 var(--r) var(--r);
+    box-shadow: var(--sh-xs);
+}
+
+.contact-expand.open {
+    /* max-height JS orqali o'rnatiladi */
+}
+
+.contact-expand .contact-form {
+    padding: 16px;
+    margin-bottom: 0;
+}
+
+/* ── MAP ────────────────────────────────── */
+.map-container {
+    overflow: hidden;
+    border-radius: 0 0 var(--r) var(--r);
+}
+
+.map-iframe {
+    width: 100%;
+    height: 260px;
+    border: none;
+    display: block;
+}
+
+.map-label {
+    padding: 10px 16px;
+    background: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--charcoal);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-top: 1px solid var(--border-2);
+}
+
+.map-label i { color: var(--gold); }
