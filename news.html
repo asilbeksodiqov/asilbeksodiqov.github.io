@@ -609,8 +609,19 @@ let isSending = false;
 
 /* ══════════════════════════════════════════════
    INIT
-══════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
+══════════════════════════════════════════════ */document.addEventListener('DOMContentLoaded', () => {
+    /* 1. CHECK URL FOR A SPECIFIC STORY ID */
+    const urlParams = new URLSearchParams(window.location.search);
+    const storyId = urlParams.get('id'); // looks for ?id=your-id
+    
+    // Find the index of the story with that ID
+    if (storyId) {
+        const foundIndex = STORIES.findIndex(s => s.id === storyId);
+        if (foundIndex !== -1) {
+            current = foundIndex; // Start at the linked story instead of 0
+        }
+    }
+
     setTimeout(() => {
         const l = document.getElementById('loading');
         l.style.opacity = '0';
@@ -623,11 +634,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         buildSlides();
         buildProgressBars();
-        updateView(0, false);
+        
+        /* 2. USE THE NEW STARTING INDEX */
+        updateView(current, false); 
 
         document.getElementById('viewer').classList.add('ready');
 
-        /* Show swipe hint only if >1 story */
         if (total <= 1) {
             document.getElementById('swipeHint').style.display = 'none';
         }
