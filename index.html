@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1c2229">
+<title>Asilbek Sodiqov</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+  :root { --bg:#1c2229; --fg:#e4e1da; --mute:#8a949d; --acc:#8fa8bd; --warn:#b4655f; --ease:cubic-bezier(.2,.7,.1,1); }
+  * { box-sizing:border-box; margin:0; }
+  html { background:var(--bg); overflow-x:hidden; }
+  body { min-height:100dvh; background:var(--bg); color:var(--fg); display:flex; align-items:center; overflow-x:hidden;
+         padding:max(2rem, env(safe-area-inset-top)) clamp(1.5rem, 8vw, 6rem) max(2rem, env(safe-area-inset-bottom));
+         font-family:'Newsreader', Georgia, serif; }
+  main { width:100%; max-width:660px; }
+
+  h1 { font-weight:500; letter-spacing:-.02em; line-height:1.05; font-size:clamp(3rem, 12vw, 6rem); }
+  .row { display:block; }
+  .ch { display:inline-block; opacity:0; animation:drop 1.15s var(--d) forwards; }
+  .tilt { display:inline-block; transition:transform .55s cubic-bezier(.55,0,.9,.55); }
+  h1.shake { animation:shake .5s linear; }
+
+  .rule { width:48px; height:2px; background:var(--acc); margin:2rem 0 1.5rem;
+          transform:scaleX(0); transform-origin:left; animation:draw .8s 2s var(--ease) forwards; }
+  .lead { font-size:clamp(1.25rem, 3.6vw, 1.6rem); color:var(--mute); line-height:1.4; opacity:0; animation:fade 1s 2.3s forwards; }
+
+  #answer { min-height:4.5em; margin-top:1.25rem; font-style:italic; font-size:clamp(1.15rem, 3.2vw, 1.4rem); line-height:1.45; }
+  .w { display:inline-block; opacity:0; animation:fire .55s cubic-bezier(.5,0,.8,.6) forwards; }
+
+  .cta { margin-top:1rem; opacity:0; animation:fade 1s 2.6s forwards; }
+  button { position:relative; display:block; padding:0; border:0; background:none; cursor:pointer;
+           font:500 1rem/1 system-ui, -apple-system, 'Segoe UI', sans-serif; color:var(--fg); }
+  .size { display:block; visibility:hidden; padding:.7rem 1.4rem; white-space:nowrap; }
+  .half { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; white-space:nowrap;
+          border:1px solid var(--acc); border-radius:2px;
+          transition:transform .3s cubic-bezier(.3,1.7,.5,1), background .2s, color .2s, border-color .2s; }
+  .l { clip-path:polygon(0 0, 56% 0, 47% 28%, 59% 54%, 49% 78%, 55% 100%, 0 100%); transform-origin:100% 100%; }
+  .r { clip-path:polygon(56% 0, 100% 0, 100% 100%, 55% 100%, 49% 78%, 59% 54%, 47% 28%); transform-origin:0 0; }
+  button:hover .half { background:var(--acc); color:var(--bg); }
+  button.warn .half { color:var(--warn); border-color:var(--warn); }
+  button.warn:hover .half { background:var(--warn); color:var(--bg); }
+  button.hit { animation:recoil .5s ease-out; }
+  :focus-visible { outline:2px solid var(--acc); outline-offset:4px; }
+
+  body, html { transition:background-color 1.2s; }
+  .lead { transition:color 1.2s; }
+  .lead .wd { white-space:nowrap; }
+  .c, .wi { display:inline-block; transition:transform .5s cubic-bezier(.55,0,.9,.55), color .8s; }
+  .g { animation:glitch 4.5s var(--gd, 0s) infinite; }
+  .rule.broken { background:repeating-linear-gradient(90deg, var(--acc) 0 9px, transparent 9px 13px); }
+  @keyframes glitch {
+    0%, 90%, 100% { text-shadow:none; opacity:1; }
+    91% { text-shadow:2px 0 var(--warn), -2px 0 var(--acc); opacity:.65; }
+    93% { text-shadow:-2px 0 var(--warn); opacity:1; }
+    95% { text-shadow:none; opacity:.8; }
+  }
+  main.tear { animation:tear .9s steps(1) forwards; }
+  @keyframes tear {
+    0%   { transform:none; filter:none; }
+    10%  { transform:translate(-14px,3px) skewX(6deg); filter:contrast(2) hue-rotate(40deg); }
+    22%  { transform:translate(12px,-4px) skewX(-8deg); filter:invert(1); }
+    34%  { transform:translate(-6px,6px); filter:brightness(2.5); }
+    48%  { transform:translate(18px,0) skewX(10deg); filter:none; clip-path:inset(30% 0 40% 0); }
+    62%  { transform:translate(-20px,2px); clip-path:inset(0 0 60% 0); filter:contrast(3); }
+    76%  { transform:scale(1,.02); clip-path:none; filter:brightness(2); }
+    100% { transform:scale(0,0); }
+  }
+  #err { display:none; position:fixed; inset:0; z-index:10; overflow:auto; background:#fff; color:#202124;
+         font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; }
+  #err.show { display:block; }
+  #err .box { max-width:620px; margin:0 auto; padding:max(14vh, 3rem) 1.5rem 2rem; }
+  #err svg { width:68px; height:68px; display:block; margin-bottom:1.5rem; }
+  #err h2 { font-size:1.55rem; font-weight:500; line-height:1.3; margin-bottom:.9rem; color:#202124; }
+  #err p { color:#5f6368; font-size:1rem; line-height:1.6; margin-bottom:.6rem; }
+  #err .code { margin-top:1.4rem; font-size:.8rem; color:#80868b; }
+  @keyframes drop {
+    0%   { opacity:0; transform:translateY(-75vh) rotate(var(--r)); animation-timing-function:cubic-bezier(.5,0,.9,.4); }
+    12%  { opacity:1; }
+    62%  { opacity:1; transform:translateY(0) rotate(0); animation-timing-function:cubic-bezier(.2,.7,.4,1); }
+    78%  { opacity:1; transform:translateY(-7%) rotate(calc(var(--r) * -.08)); animation-timing-function:cubic-bezier(.5,0,.9,.6); }
+    100% { opacity:1; transform:none; }
+  }
+  @keyframes fire {
+    0%   { opacity:0; transform:translate(var(--fx), var(--fy)) scale(.12); filter:blur(5px); }
+    15%  { opacity:1; }
+    78%  { opacity:1; transform:scale(1.22); filter:blur(0); animation-timing-function:ease-out; }
+    100% { opacity:1; transform:none; filter:none; }
+  }
+  @keyframes shake  { 0%,100% { transform:none; } 12% { transform:translate(-9px,2px) rotate(-.9deg); } 30% { transform:translate(8px,-2px) rotate(.8deg); }
+                      50% { transform:translate(-6px,1px) rotate(-.5deg); } 70% { transform:translate(4px,0) rotate(.3deg); } }
+  @keyframes recoil { 0% { transform:none; } 18% { transform:scale(.92) translateX(-5px) rotate(-1.5deg); } 42% { transform:translateX(6px) rotate(1deg); } 70% { transform:translateX(-2px); } 100% { transform:none; } }
+  @keyframes draw { to { transform:none; } }
+  @keyframes fade { to { opacity:1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .ch { animation:none; opacity:1; } .tilt, .half { transition:none; }
+    .rule { animation:none; transform:none; } .lead, .cta { animation:none; opacity:1; }
+    .w { animation:none; opacity:1; } h1.shake, button.hit, .g { animation:none; }
+    .c, .wi { transition:none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="name" aria-label="Asilbek Sodiqov"></h1>
+  <div class="rule"></div>
+  <p class="lead">Bu sahifa ataylab shunday sodda.</p>
+  <p id="answer" aria-live="polite"></p>
+  <div class="cta">
+    <button id="btn" type="button" aria-label="Nega?">
+      <span class="size" aria-hidden="true">Qarang, nima qildingiz.</span>
+      <span class="half l" aria-hidden="true"><span class="lab">Nega?</span></span>
+      <span class="half r" aria-hidden="true"><span class="lab">Nega?</span></span>
+    </button>
+  </div>
+</main>
+
+<div id="err" role="alert">
+  <div class="box">
+    <svg viewBox="0 0 64 64" fill="none" stroke="#9aa0a6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+      <path d="M16 6h22l12 12v36a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z"/><path d="M38 6v12h12"/><path d="M25 32l14 14M39 32L25 46"/>
+    </svg>
+    <h2 id="errtitle">Sahifani ochib bo'lmadi</h2>
+    <p>Bu sahifa yaroqsiz holga keldi va hozircha mavjud emas.</p>
+    <p>Keyinroq qayta urinib ko'ring.</p>
+    <p class="code">ERR_SAHIFA_YAROQSIZ</p>
+  </div>
+</div>
+
+<script>
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const origins = ['0 0', '100% 0', '0 100%', '100% 100%'];
+
+  // Ism: har bir harf alohida tushadi
+  const name = document.getElementById('name'), tilts = [], dmg = [];
+  ['Asilbek', 'Sodiqov'].forEach((word, r) => {
+    const row = document.createElement('span'); row.className = 'row'; row.setAttribute('aria-hidden', 'true');
+    [...word].forEach((ch, i) => {
+      const o = document.createElement('span'), t = document.createElement('span');
+      o.className = 'ch'; o.style.setProperty('--d', (r * 0.5 + i * 0.09 + rnd(0, 0.12)).toFixed(2) + 's');
+      o.style.setProperty('--r', rnd(-40, 40).toFixed(0) + 'deg');
+      t.className = 'tilt'; t.textContent = ch; t.style.transformOrigin = origins[Math.floor(Math.random() * 4)];
+      o.append(t); row.append(o);
+      tilts.push(t); dmg.push({ x:0, y:0, r:0, cap: 24 });
+    });
+    name.append(row);
+  });
+
+  const blames = ["Qarang, nima qildingiz.", "Buni siz qildingiz.", "Yana-ku? Yetarli.", "Ismni sindirdingiz.", "Men aytgan edim.", "Mas'uliyat sizda."];
+  const answers = [
+    "Chunki ba'zi narsalar shaxsiy qolgani yaxshi.",
+    "Kamroq ma'lumot, ko'proq xotirjamlik.",
+    "Haqiqiy suhbat har qanday sahifadan qimmatroq.",
+    "Bu yerda faqat ism bor. Qolganini o'zingiz tasavvur qiling.",
+    "Yaxshi savol. Javob esa: yo'q."
+  ];
+  const el = document.getElementById('answer'), btn = document.getElementById('btn');
+  const labs = btn.querySelectorAll('.lab'), hl = btn.querySelector('.l'), hr = btn.querySelector('.r');
+  let a = -1, b = -1, n = 0, stage = 0, busy = false, dead = false, back;
+
+
+  // Sayt buzilishi: rang, sarlavha matni va javob so'zlari
+  const lead = document.querySelector('.lead'), rule = document.querySelector('.rule'), meta = document.querySelector('meta[name=theme-color]');
+  const cl = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const leadText = lead.textContent, leadChars = [];
+  lead.setAttribute('aria-label', leadText); lead.textContent = '';
+  leadText.split(' ').forEach((word, i, all) => {
+    const w = document.createElement('span'); w.className = 'wd'; w.setAttribute('aria-hidden', 'true');
+    [...word].forEach(ch => { const c = document.createElement('span'); c.className = 'c'; c.textContent = ch; w.append(c); leadChars.push({ el:c, x:0, y:0, r:0 }); });
+    lead.append(w); if (i < all.length - 1) lead.append(' ');
+  });
+
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix = (x, y, t) => '#' + hex(x).map((v, i) => Math.round(v + (hex(y)[i] - v) * t).toString(16).padStart(2, '0')).join('');
+  const from = { bg:'#1c2229', fg:'#e4e1da', mute:'#8a949d', acc:'#8fa8bd' };
+  const to   = { bg:'#2b1c20', fg:'#cdbfb8', mute:'#92746f', acc:'#b4655f' };
+  function tint(t) {
+    for (const k in from) document.documentElement.style.setProperty('--' + k, mix(from[k], to[k], t));
+    meta.setAttribute('content', mix(from.bg, to.bg, t));
+  }
+  function glitchLead() {
+    for (let i = 0; i < 2; i++) {
+      const c = leadChars[Math.floor(Math.random() * leadChars.length)];
+      c.x = cl(c.x + rnd(-2, 2), -3, 3); c.y = cl(c.y + rnd(-3, 3), -5, 5); c.r = cl(c.r + rnd(-6, 6), -12, 12);
+      c.el.style.transform = `translate(${c.x}px, ${c.y}px) rotate(${c.r}deg)`;
+      if (Math.random() < 0.6) c.el.style.color = 'var(--warn)';
+      if (!c.el.classList.contains('g')) { c.el.style.setProperty('--gd', rnd(0, 4).toFixed(1) + 's'); c.el.classList.add('g'); }
+    }
+  }
+  function decay(L) {
+    tint(Math.min(L, 6) / 6 * 0.9);
+    glitchLead();
+    if (L >= 4) rule.classList.add('broken');
+  }
+
+  // Barcha javoblar tugagach: sayt "ishdan chiqadi" va oddiy xato sahifasi chiqadi
+  function crash() {
+    const html = document.documentElement, main = document.querySelector('main');
+    if (!calm) main.classList.add('tear');
+    setTimeout(() => {
+      html.style.transition = document.body.style.transition = 'none';
+      html.style.background = document.body.style.background = '#000';
+      main.style.display = 'none';
+    }, calm ? 0 : 900);
+    setTimeout(() => {
+      const host = location.hostname;
+      if (host) document.getElementById('errtitle').textContent = host + " sahifasini ochib bo'lmadi";
+      html.style.background = document.body.style.background = '#fff';
+      document.getElementById('err').classList.add('show');
+      document.title = "Sahifa mavjud emas";
+      meta.setAttribute('content', '#ffffff');
+    }, calm ? 200 : 1900);
+  }
+
+  const retrigger = (node, cls) => { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };
+  const setLabel = t => { labs.forEach(l => l.textContent = t); btn.setAttribute('aria-label', t); };
+
+  function hurt(k, big) {
+    const d = dmg[k];
+    d.y = Math.min(d.y + (big ? rnd(14, 22) : rnd(6, 12)), d.cap);
+    d.x = Math.max(-7, Math.min(7, d.x + rnd(-4, 4)));
+    d.r = Math.max(-26, Math.min(26, d.r + rnd(-9, 9) + (big ? (Math.random() < .5 ? -10 : 10) : 0)));
+    tilts[k].style.transform = `translate(${d.x}px, ${d.y}px) rotate(${d.r}deg)`;
+  }
+
+  function crack(s) {
+    hl.style.transform = `translate(${-s * 2}px, ${s * 1.5}px) rotate(${-s * 1.7}deg)`;
+    hr.style.transform = `translate(${s * 2}px, ${-s * 1.2}px) rotate(${s * 1.4}deg)`;
+  }
+
+  btn.addEventListener('click', () => {
+    if (busy || dead) return;
+    busy = true; clearTimeout(back); n++;
+
+    // ism: har bosishda bitta harf, har uchinchisida sal kuchliroq
+    hurt(Math.floor(Math.random() * tilts.length), n % 3 === 0);
+
+    // tugma: avval qattiq ajraladi, keyin sinig'icha qoladi
+    stage = Math.min(stage + 1, 6);
+    crack(stage + 2); setTimeout(() => crack(stage), calm ? 0 : 170);
+    if (!calm) { retrigger(name, 'shake'); retrigger(btn, 'hit'); }
+    const L = Math.min(n, 8); decay(L);
+    b = (b + 1) % blames.length; setLabel(blames[b]); btn.classList.add('warn');
+
+    // javob: so'zlar foydalanuvchi tomon otiladi
+    el.textContent = '';
+    const words = answers[(a = (a + 1) % answers.length)].split(' ');
+    const p = Math.min(0.1 + 0.06 * L, 0.5), k = 0.4 + 0.6 * L / 8, force = Math.floor(Math.random() * words.length);
+    words.forEach((w, i) => {
+      const s = document.createElement('span'), wi = document.createElement('span');
+      s.className = 'w'; wi.className = 'wi'; wi.textContent = w; s.append(wi);
+      s.style.setProperty('--fx', rnd(-90, 90).toFixed(0) + 'px');
+      s.style.setProperty('--fy', rnd(-190, -110).toFixed(0) + 'px');
+      s.style.animationDelay = (0.12 + i * 0.1) + 's';
+      if (i === force || Math.random() < p) {
+        wi.style.transform = `translate(${(rnd(-3, 3) * k).toFixed(1)}px, ${(rnd(-4, 4) * k).toFixed(1)}px) rotate(${(rnd(-8, 8) * k).toFixed(1)}deg)`;
+        if (Math.random() < 0.5) wi.style.color = 'var(--warn)';
+        wi.style.setProperty('--gd', rnd(0, 4).toFixed(1) + 's'); wi.classList.add('g');
+      }
+      el.append(s, ' ');
+    });
+
+    if (n === answers.length) { dead = true; setTimeout(crash, calm ? 2500 : 4300); }
+    setTimeout(() => { busy = false; }, calm ? 0 : 650);
+    back = setTimeout(() => { btn.classList.remove('warn'); setLabel('Yana nega?'); }, calm ? 1500 : 2400);
+  });
+  name.addEventListener('animationend', () => name.classList.remove('shake'));
+  btn.addEventListener('animationend', () => btn.classList.remove('hit'));
+</script>
+</body>
+</html>
