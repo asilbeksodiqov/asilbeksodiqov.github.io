@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0c0a">
+  <meta name="robots" content="noindex">
+  <title>404.0 · Signal yo‘q — 040.uz</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="e404">
+<canvas class="static" id="static" aria-hidden="true"></canvas>
+<div class="scanlines" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="/">040<span>.uz</span></a>
+  <p class="air"><span class="lamp" aria-hidden="true"></span><span>Signal yo‘q</span></p>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="kicker">404.0 — Bo‘sh chastota</p>
+    <h1 class="big">Bu chastotada <em>hech kim</em> gapirmayapti.</h1>
+    <p class="lede">Siz qidirgan sahifa yo‘q, ko‘chirilgan yoki hech qachon efirga chiqmagan.</p>
+    <div class="cta">
+      <a class="chip" href="/"><b>040.0</b> Bosh stansiyaga qaytish</a>
+    </div>
+  </div>
+</main>
+
+<script>
+  (() => {
+    const cv = document.getElementById('static'), ctx = cv.getContext('2d');
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let img, buf, w, h, s = 0x2545f491, f = 0;
+    const size = () => {
+      w = cv.width = Math.max(1, Math.ceil(innerWidth / 3)); h = cv.height = Math.max(1, Math.ceil(innerHeight / 3));
+      img = ctx.createImageData(w, h); buf = new Uint32Array(img.data.buffer); draw(true);
+    };
+    const draw = (force) => {
+      if (!force && (still || (f++ & 1))) return;
+      for (let i = 0; i < buf.length; i++) {
+        s ^= s << 13; s ^= s >>> 17; s ^= s << 5;
+        const v = s & 255; buf[i] = 0xff000000 | (v << 16) | (v << 8) | v;
+      }
+      ctx.putImageData(img, 0, 0);
+    };
+    const loop = () => { draw(false); requestAnimationFrame(loop); };
+    addEventListener('resize', size); size(); loop();
+  })();
+</script>
+</body>
+</html>
