@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0c0a">
+  <title>040.0 · Salom — Sodiqov</title>
+  <meta name="description" content="Sodiqov — shaxsiy sayt. Bu sayt radio: stansiyalarni o‘zingiz qidirib topasiz.">
+  <meta name="author" content="Sodiqov">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://040.uz/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://040.uz/">
+  <meta property="og:title" content="040.uz — Sodiqov">
+  <meta property="og:description" content="Bu sayt radio. To‘lqinni o‘zingiz toping.">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<canvas class="static" id="static" aria-hidden="true"></canvas>
+<div class="scanlines" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="top">
+  <span class="brand">040<span>.uz</span></span>
+  <p class="who">Sodiqov <span>/ veb-dasturchi</span></p>
+  <p class="air">
+    <!-- Stansiya topilganda chiroq uning nomini Morze alifbosida "uzatadi" -->
+    <span class="lamp" id="lamp" aria-hidden="true"></span>
+    <span class="air-text" id="airText">Izlanmoqda</span>
+    <time id="clock">--:--:--</time>
+  </p>
+</header>
+
+<!-- ================= STATIONS =================
+     Stansiyalar orasida tugma yo‘q: mehmon ularni faqat
+     g‘ildirak, shkalani sudrash yoki ekranni surish bilan o‘zi topadi.
+
+     Har bir <article class="station"> — bitta "radio stansiya".
+     data-f      — chastota (0 … 110)
+     data-name   — displeyda ko‘rinadigan nom
+     data-scramble — shovqinda "buziladigan" matnlar
+     Hamma narsa bitta ekranga sig‘adi: matn ko‘p bo‘lsa, JS uni avtomatik kichraytiradi.
+============================================== -->
+<main class="stage" id="stage">
+
+  <div class="ghost" id="ghost" aria-hidden="true">040.0</div>
+
+  <!-- Yashirin stansiya: shkalada "?" bilan belgilangan -->
+  <article class="station station--egg" id="kosmos" data-f="13.8" data-name="Kosmos" data-hidden>
+    <div class="wrap">
+      <p class="kicker" data-scramble>013.8 — Yashirin to‘lqin</p>
+      <h2 class="title" data-scramble>Siz shovqin ichidan <em>nimanidir</em> topdingiz.</h2>
+      <p class="lede" data-scramble>
+        Eski televizor ekranidagi “qor”ning bir qismi — 13,8 milliard yil avval
+        Katta portlashdan qolgan reliktiv nurlanish. Bu sahifadagi shovqin esa shunchaki
+        <code>Math.random()</code>. Baribir, topganingiz uchun rahmat.
+      </p>
+    </div>
+  </article>
+
+  <article class="station" id="salom" data-f="40" data-name="Salom">
+    <div class="wrap">
+      <p class="kicker" data-scramble>040.0 — Salom</p>
+      <h1 class="big" data-scramble>
+        Salom, men Sodiqov.
+        Internet uchun <em>jim, aniq</em> va biroz <em>g‘alati</em> narsalar yasayman.
+      </h1>
+      <p class="lede" data-scramble>
+        Bu sayt — radio. Menyu ham, tugma ham yo‘q. Qolgan stansiyalarni o‘zingiz qidirasiz.
+        <span class="only-fine">G‘ildirakni aylantiring yoki ekranni sichqoncha bilan suring.</span>
+        <span class="only-touch">Ekranni chapga yoki o‘ngga suring.</span>
+      </p>
+    </div>
+  </article>
+
+  <article class="station station--work" id="ishlar" data-f="58" data-name="Ishlar">
+    <div class="wrap">
+      <p class="kicker" data-scramble>058.0 — Ishlar</p>
+      <h2 class="title title--work" data-scramble>Loyihalarimga <em>o‘zim ham</em> qiziqmayman.</h2>
+      <p class="lede" data-scramble>
+        Sizga yo‘l bo‘lsin? Bu yerda ko‘radigan hech narsa yo‘q.
+        Rostini aytsam, siz bu chastotani topish uchun ko‘proq mehnat qildingiz.
+      </p>
+      <dl class="meta">
+        <div><dt>Ko‘rsatilgan loyihalar</dt><dd data-scramble>0</dd></div>
+        <div><dt>Afsuslar</dt><dd data-scramble>0</dd></div>
+        <div><dt>Maslahat</dt><dd data-scramble>Burashda davom eting</dd></div>
+      </dl>
+    </div>
+  </article>
+
+  <article class="station station--about" id="haqida" data-f="76" data-name="Haqida">
+    <div class="wrap about">
+      <div class="prose">
+        <p class="kicker" data-scramble>076.0 — Men haqimda</p>
+        <h2 class="title" data-scramble>Kod — bu ham <em>hunarmandchilik.</em></h2>
+        <p data-scramble>
+          Veb-interfeyslar yasayman. Ishga usta kabi yondashaman: avval materialni o‘rganaman,
+          keyin shoshilmasdan, qayta-qayta silliqlayman. Natija tashqaridan oddiy ko‘rinsa,
+          demak ish to‘g‘ri qilingan.
+        </p>
+        <p data-scramble>
+          Kod yozish — kasbim ham, eng yaxshi ko‘rgan mashg‘ulotim ham.
+        </p>
+      </div>
+      <dl class="spec">
+        <div><dt>Yo‘nalish</dt><dd data-scramble>Frontend, interfeys, animatsiya</dd></div>
+        <div><dt>Asboblar</dt><dd data-scramble>HTML, CSS, JavaScript</dd></div>
+        <div><dt>Tamoyil</dt><dd data-scramble>Kamroq, lekin puxta</dd></div>
+        <div><dt>Joy</dt><dd data-scramble>O‘zbekiston, UTC+5</dd></div>
+      </dl>
+    </div>
+  </article>
+
+  <article class="station" id="aloqa" data-f="94" data-name="Aloqa">
+    <div class="wrap">
+      <p class="kicker" data-scramble>094.0 — Aloqa</p>
+      <h2 class="title title--xl" data-scramble>Gaplashamizmi? <em>Chastota ochiq.</em></h2>
+      <a class="mail" href="mailto:info@sodiqov.uz"><span data-scramble>info@sodiqov.uz</span> <i aria-hidden="true">↗</i></a>
+    </div>
+  </article>
+
+</main>
+
+<!-- ================= TUNER ================= -->
+<footer class="tuner">
+  <div class="readout">
+    <span class="freq" id="freq">000.0</span>
+    <span class="unit">MHz</span>
+    <span class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="stname" id="stname">shovqin</span>
+  </div>
+
+  <button type="button" class="sound" id="sound" aria-pressed="false" aria-label="Ovoz">
+    <svg viewBox="0 0 20 20" aria-hidden="true">
+      <path d="M3 7.5h3l4-3v11l-4-3H3z" fill="currentColor"/>
+      <path class="wv" d="M13 7.5a3.5 3.5 0 0 1 0 5M15.5 5a7 7 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="lbl">Ovoz</span>
+  </button>
+
+  <canvas class="scope" id="scope" aria-hidden="true"></canvas>
+
+  <div class="dial" id="dial" aria-hidden="true">
+    <div class="scale" id="scale"></div>
+    <div class="needle"></div>
+  </div>
+
+  <p class="sr" id="live" aria-live="polite"></p>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>
